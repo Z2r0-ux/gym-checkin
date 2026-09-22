@@ -1,4 +1,4 @@
-const CACHE="gym-checkin-v4";
+const CACHE="gym-checkin-v5";
 const ASSETS=[
   "./",
   "./index.html",
