@@ -70,6 +70,31 @@
 
   <section id="viewMore" class="view">
     <div class="sectionTitle" style="margin-top:4px">
+      <h2>云同步</h2><span id="cloudStatus">未登录 · 本机模式</span>
+    </div>
+    <div class="settingsCard" id="authCard">
+      <div id="signedOutPanel">
+        <div class="authIntro">登录后训练数据会自动同步到 Supabase。首次登录时，如果云端为空，会把当前手机已有记录上传。</div>
+        <input class="authInput" id="authEmail" type="email" autocomplete="email" placeholder="邮箱" />
+        <input class="authInput" id="authPassword" type="password" autocomplete="current-password" placeholder="密码，至少 6 位" />
+        <div class="authActions">
+          <button class="smallBtn primarySmall" id="signInBtn">登录</button>
+          <button class="smallBtn" id="signUpBtn">注册</button>
+        </div>
+      </div>
+      <div id="signedInPanel" class="hidden">
+        <div class="settingsRow">
+          <div class="left"><b id="authUserEmail">已登录</b><span id="syncDetail">等待同步</span></div>
+          <button class="smallBtn" id="signOutBtn">退出</button>
+        </div>
+        <div class="settingsRow">
+          <div class="left"><b>立即同步</b><span>把本机最新数据保存到云端</span></div>
+          <button class="smallBtn" id="syncNowBtn">同步</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sectionTitle">
       <h2>每日目标</h2><span id="targetPhase">身体重组</span>
     </div>
     <div class="nutrition" id="dailyTargets"></div>
@@ -77,14 +102,14 @@
     <div class="sectionTitle"><h2>饮食原则</h2><span>直接执行</span></div>
     <div class="settingsCard" id="nutritionPrinciples"></div>
 
-    <div class="sectionTitle"><h2>数据</h2><span>本机保存</span></div>
+    <div class="sectionTitle"><h2>数据</h2><span id="dataModeText">本机缓存 + 云端可选</span></div>
     <div class="settingsCard">
       <div class="settingsRow">
-        <div class="left"><b>导出训练记录</b><span>发给教练后可直接据此调重量和组次</span></div>
+        <div class="left"><b>导出训练记录</b><span>仍可导出 JSON 作为额外备份</span></div>
         <button class="smallBtn" id="exportBtn">导出</button>
       </div>
       <div class="settingsRow">
-        <div class="left"><b>导入训练记录</b><span>换手机或浏览器后恢复</span></div>
+        <div class="left"><b>导入训练记录</b><span>导入后会保存到本机；登录后也会同步到云端</span></div>
         <label class="smallBtn" for="importInput">导入</label>
         <input id="importInput" class="hidden" type="file" accept=".json">
       </div>
@@ -124,8 +149,10 @@
 
 <div class="toast" id="toast"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="./data/profile.js"></script>
 <script src="./data/program.js"></script>
+<script src="./data/supabase-config.js"></script>
 <script src="./app.js"></script>
 </body>
 </html>
