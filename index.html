@@ -25,10 +25,26 @@
   </div>
 
   <section id="viewWorkout" class="view active">
+    <div class="cycleSummary">
+      <div class="cycleSummaryItem">
+        <span>训练周期</span>
+        <b id="cycleLabel">第 1 个训练周期 · Day 1 / 7</b>
+      </div>
+      <div class="cycleSummaryItem right">
+        <span>上次记录</span>
+        <b id="lastRecordText">暂无记录</b>
+      </div>
+    </div>
+
+    <div class="archiveBanner hidden" id="archiveBanner">
+      <b id="archiveBannerTitle">今日已归档 ✓</b>
+      <span id="archiveBannerText">当前展示下一计划。</span>
+    </div>
+
     <div class="hero">
       <div class="heroTop">
         <div>
-          <div class="eyebrow" id="heroEyebrow">今日训练</div>
+          <div class="eyebrow" id="heroEyebrow">今日计划</div>
           <h2 class="heroTitle" id="heroTitle">Push A</h2>
           <div class="heroSub" id="heroSub">胸 + 肩 + 三头</div>
         </div>
@@ -48,23 +64,28 @@
 
     <div class="daystrip" id="dayStrip"></div>
 
+    <div class="sessionActions" id="sessionActions">
+      <button class="sessionBtn" id="toggleRestBtn">今日改为休息</button>
+      <button class="sessionBtn warning hidden" id="skipRestBtn">跳过本次休息</button>
+    </div>
+
     <div class="sectionTitle">
       <h2>训练动作</h2>
-      <span>点开即可开始</span>
+      <span>训练进度按实际归档推进</span>
     </div>
     <div id="exerciseList"></div>
 
-    <div class="quickNotes">
+    <div class="quickNotes" id="notesBlock">
       <div style="font-size:12px;color:var(--muted);margin-bottom:6px">今日备注</div>
       <textarea id="dayNote" placeholder="睡眠、精神、酸痛、异常感觉……"></textarea>
     </div>
 
-    <button class="finishBtn" id="finishWorkout">完成今天训练</button>
+    <button class="finishBtn" id="finishWorkout">提交今日数据</button>
   </section>
 
   <section id="viewProgress" class="view">
     <div class="sectionTitle" style="margin-top:4px">
-      <h2>训练记录</h2><span>最近完成</span>
+      <h2>训练记录</h2><span>已归档历史</span>
     </div>
     <div id="historyList"></div>
   </section>
@@ -110,12 +131,12 @@
         <button class="smallBtn" id="exportBtn">导出</button>
       </div>
       <div class="settingsRow">
-        <div class="left"><b>导入训练记录</b><span>未登录时导入到本机；登录时会同步到云端</span></div>
+        <div class="left"><b>导入训练记录</b><span>兼容旧版本；登录时会同步到云端</span></div>
         <label class="smallBtn" for="importInput">导入</label>
         <input id="importInput" class="hidden" type="file" accept=".json">
       </div>
       <div class="settingsRow">
-        <div class="left"><b>重置当前训练日</b><span>只清空当前这一天的打卡</span></div>
+        <div class="left"><b>重置当前草稿</b><span>只清空当前训练日尚未归档的数据</span></div>
         <button class="smallBtn" id="resetDay">重置</button>
       </div>
     </div>
@@ -138,12 +159,12 @@
 
 <div class="sheet" id="finishSheet">
   <div class="sheetCard">
-    <h3>完成今天训练？</h3>
+    <h3 id="finishSheetTitle">提交今日数据？</h3>
     <p id="finishSummary">今天共完成 0 组。</p>
-    <p>完成后会写入训练记录。你仍然可以返回继续修改今天的数据。</p>
+    <p id="finishSheetHint">提交后会写入历史并推进训练周期。</p>
     <div class="sheetActions">
-      <button class="ghost" id="sheetCancel">继续训练</button>
-      <button class="primary" id="sheetConfirm">完成训练</button>
+      <button class="ghost" id="sheetCancel">返回</button>
+      <button class="primary" id="sheetConfirm">提交归档</button>
     </div>
   </div>
 </div>
