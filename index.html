@@ -75,7 +75,7 @@
     </div>
     <div class="settingsCard" id="authCard">
       <div id="signedOutPanel">
-        <div class="authIntro">登录后训练数据会自动同步到 Supabase。首次登录时，如果云端为空，会把当前手机已有记录上传。</div>
+        <div class="authIntro">未登录时训练记录保存在当前浏览器。登录后 Supabase 成为主数据源，本机只在网络失败时临时保存待同步修改。</div>
         <input class="authInput" id="authEmail" type="email" autocomplete="email" placeholder="邮箱" />
         <input class="authInput" id="authPassword" type="password" autocomplete="current-password" placeholder="密码，至少 6 位" />
         <div class="authActions">
@@ -89,7 +89,7 @@
           <button class="smallBtn" id="signOutBtn">退出</button>
         </div>
         <div class="settingsRow">
-          <div class="left"><b>立即同步</b><span>把本机最新数据保存到云端</span></div>
+          <div class="left"><b>立即同步</b><span>把当前内存中的最新训练状态保存到 Supabase</span></div>
           <button class="smallBtn" id="syncNowBtn">同步</button>
         </div>
       </div>
@@ -103,14 +103,14 @@
     <div class="sectionTitle"><h2>饮食原则</h2><span>直接执行</span></div>
     <div class="settingsCard" id="nutritionPrinciples"></div>
 
-    <div class="sectionTitle"><h2>数据</h2><span id="dataModeText">本机缓存 + 云端可选</span></div>
+    <div class="sectionTitle"><h2>数据</h2><span id="dataModeText">未登录 · 本机保存</span></div>
     <div class="settingsCard">
       <div class="settingsRow">
-        <div class="left"><b>导出训练记录</b><span>仍可导出 JSON 作为额外备份</span></div>
+        <div class="left"><b>导出训练记录</b><span>可随时导出 JSON 作为额外备份</span></div>
         <button class="smallBtn" id="exportBtn">导出</button>
       </div>
       <div class="settingsRow">
-        <div class="left"><b>导入训练记录</b><span>导入后会保存到本机；登录后也会同步到云端</span></div>
+        <div class="left"><b>导入训练记录</b><span>未登录时导入到本机；登录时会同步到云端</span></div>
         <label class="smallBtn" for="importInput">导入</label>
         <input id="importInput" class="hidden" type="file" accept=".json">
       </div>
