@@ -1,41 +1,50 @@
-# 训练打卡 · GitHub Pages 部署版
+# 训练打卡
 
-这是一个纯静态网页，不需要服务器和数据库。
+这是一个部署在 GitHub Pages 上的个人训练打卡 PWA。目前定位是 **Personalized Single-User MVP**：界面和训练流程可复用，但默认训练方案与每日目标仍针对当前用户配置。
 
-## GitHub Pages 部署
+## 当前结构
 
-1. 在 GitHub 新建一个仓库，例如 `gym-checkin`
-2. 把这个压缩包里的所有文件上传到仓库根目录
-3. 打开仓库：
-   - Settings
-   - Pages
-4. 在 `Build and deployment` 中选择：
-   - Source: `Deploy from a branch`
-   - Branch: `main`
-   - Folder: `/ (root)`
-5. 保存后，GitHub 会生成访问地址，通常类似：
-   `https://你的用户名.github.io/gym-checkin/`
+```text
+gym-checkin/
+├─ index.html                 # 页面结构
+├─ styles.css                 # 界面样式
+├─ app.js                     # 打卡、计时、历史、导入导出等应用逻辑
+├─ data/
+│  ├─ profile.js              # 用户阶段、每日目标、饮食原则、本地存储键
+│  └─ program.js              # 当前训练计划、动作、重量、组数、RIR、休息时间
+├─ manifest.webmanifest       # PWA 配置
+├─ sw.js                      # 离线缓存
+├─ apple-touch-icon.png
+├─ icon-192.png
+└─ icon-512.png
+```
 
-## iPhone 添加到主屏幕
+## 解耦原则
 
-1. 用 Safari 打开 GitHub Pages 地址
-2. 点击 Safari 底部的“分享”
-3. 选择“添加到主屏幕”
-4. 名称可以保留为“训练打卡”
-5. 以后直接从桌面图标打开
+- `index.html` 不再保存个人训练数据和整套训练计划。
+- `profile.js` 只保存个人配置和目标。
+- `program.js` 只保存训练方案。
+- `app.js` 只负责应用行为和本地数据读写。
+- 训练记录仍保存在浏览器 `localStorage` 中。
 
-## 数据保存
+## 数据兼容
 
-- 训练数据默认保存在 iPhone Safari / Web App 的本地存储中
-- 建议定期在“更多 → 导出训练记录”里导出 JSON 备份
-- 换手机或清理 Safari 数据前，先导出
-- GitHub Pages 更新网页文件，不会主动清除浏览器本地训练数据
+本次重构继续使用原来的本地存储键：
 
-## 更新训练计划
+```text
+gym_mobile_v3
+```
 
-以后如果只调整重量、组数或动作，可以直接修改 `index.html` 内的 `PLAN` 数据。
-重新上传到 GitHub 后，网页会自动更新。
+因此已有训练记录、当前重量、每组次数、RIR、完成状态和历史记录会继续读取，不需要重新导入。
 
-如果主屏幕版本短时间内没有更新：
-- 完全关闭训练打卡 App 后重新打开
-- 或在 Safari 中刷新一次网页
+导出的 JSON 现在附带 `schemaVersion`、`profileId` 和 `exportedAt`，但仍兼容旧版导出文件。
+
+## GitHub Pages
+
+仓库继续从 `main` 分支根目录部署，不需要修改 Pages 设置。
+
+修改 `main` 后 GitHub Pages 会重新发布。iPhone 主屏幕版本由 `sw.js` 提供离线缓存；本次缓存版本已经升级，重新打开应用后会逐步切换到新版本。
+
+## 下一阶段
+
+当前结构已经为多用户做好第一步准备。后续可以在不重写界面的情况下，把 `profile.js` 和 `program.js` 改为按用户加载，并再接入登录与云端数据同步。
