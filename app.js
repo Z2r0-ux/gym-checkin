@@ -1,383 +1,54 @@
-const PROFILE = window.APP_PROFILE;
-const PLAN = window.TRAINING_PROGRAM;
-const KEY = PROFILE.storageKey;
+const PROFILE=window.APP_PROFILE,PLAN=window.TRAINING_PROGRAM,KEY=PROFILE.storageKey;
+const pad=n=>String(n).padStart(2,"0");
+const fmtDate=(d=new Date())=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const tz=()=>{try{return Intl.DateTimeFormat().resolvedOptions().timeZone||"local"}catch{return"local"}};
+const keyFor=(ex,i)=>`${i}_${ex.n}`;
+const esc=v=>String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
 
-let state = JSON.parse(localStorage.getItem(KEY) || "{}");
-if (!state.currentDay) state.currentDay = PROFILE.defaultDay;
-if (!state.days) state.days = {};
-if (!state.history) state.history = [];
-
-function persist() {
-  localStorage.setItem(KEY, JSON.stringify(state));
-}
-
-function initDay(day) {
-  if (!state.days[day.id]) state.days[day.id] = { note: "", ex: {} };
-  day.ex.forEach((x, i) => {
-    const k = keyFor(x, i);
-    if (!state.days[day.id].ex[k]) {
-      state.days[day.id].ex[k] = {
-        weight: x.w,
-        sets: Array.from({ length: x.s }, () => ({ reps: x.r, rir: x.rir, done: false }))
-      };
-      return;
-    }
-
-    const existing = state.days[day.id].ex[k];
-    if (!Array.isArray(existing.sets)) existing.sets = [];
-    while (existing.sets.length < x.s) {
-      existing.sets.push({ reps: x.r, rir: x.rir, done: false });
-    }
-    if (existing.sets.length > x.s) existing.sets = existing.sets.slice(0, x.s);
-    if (existing.weight === undefined || existing.weight === null) existing.weight = x.w;
-  });
-}
-
-PLAN.forEach(initDay);
+function blankDay(day){const ex={};day.ex.forEach((x,i)=>ex[keyFor(x,i)]={weight:x.w,sets:Array.from({length:x.s},()=>({reps:x.r,rir:x.rir,done:false}))});return{note:"",ex}}
+let state;try{state=JSON.parse(localStorage.getItem(KEY)||"{}")}catch{state={}}
+function initDay(day){state.days??={};state.days[day.id]??=blankDay(day);state.days[day.id].note=typeof state.days[day.id].note==="string"?state.days[day.id].note:"";state.days[day.id].ex??={};day.ex.forEach((x,i)=>{const k=keyFor(x,i);state.days[day.id].ex[k]??=blankDay({ex:[x]}).ex[keyFor(x,0)];const e=state.days[day.id].ex[k];e.weight=e.weight??x.w;e.sets=Array.isArray(e.sets)?e.sets:[];while(e.sets.length<x.s)e.sets.push({reps:x.r,rir:x.rir,done:false});e.sets=e.sets.slice(0,x.s).map(s=>({reps:s?.reps??x.r,rir:s?.rir??x.rir,done:!!s?.done}))})}
+function ensureState(){state=state&&typeof state==="object"?state:{};state.days=state.days&&typeof state.days==="object"?state.days:{};state.history=Array.isArray(state.history)?state.history:[];const oldIndex=Math.max(0,PLAN.findIndex(d=>d.id===state.currentDay));state.cycle=state.cycle&&typeof state.cycle==="object"?state.cycle:{number:1,day:oldIndex+1};state.cycle.number=Math.max(1,parseInt(state.cycle.number)||1);state.cycle.day=Math.min(PLAN.length,Math.max(1,parseInt(state.cycle.day)||(oldIndex+1)));PLAN.forEach(initDay);const p=PLAN[state.cycle.day-1]||PLAN[0];state.currentDay=p.id;if(!["workout","rest"].includes(state.sessionMode))state.sessionMode=p.id==="rest"?"rest":"workout";if(p.id==="rest")state.sessionMode="rest";state._meta=state._meta&&typeof state._meta==="object"?state._meta:{};state._meta.updatedAt??=new Date().toISOString();if(!state.lastArchive&&state.history.length){const h=[...state.history].reverse().find(x=>x&&(x.localDate||x.date)&&x.type!=="skip");if(h)state.lastArchive={localDate:h.localDate||h.date,submittedAt:h.submittedAt||null,timezone:h.timezone||null,type:h.type||"workout",title:h.title||"训练"}}}
+ensureState();
+function persist(){state._meta.updatedAt=new Date().toISOString();localStorage.setItem(KEY,JSON.stringify(state))}
 persist();
+const currentPlan=()=>PLAN[state.cycle.day-1]||PLAN[0];
+const archivedToday=()=>state.lastArchive?.localDate===fmtDate();
+const scheduledRest=()=>currentPlan().id==="rest";
+const tempRest=()=>!scheduledRest()&&state.sessionMode==="rest";
+function resetDay(day){state.days[day.id]=blankDay(day)}
+function calc(day){let total=0,done=0,doneEx=0;day.ex.forEach((x,i)=>{const sets=state.days[day.id]?.ex?.[keyFor(x,i)]?.sets||[];total+=sets.length;const n=sets.filter(s=>s.done).length;done+=n;if(sets.length&&n===sets.length)doneEx++});return{total,done,doneEx,pct:total?Math.round(done/total*100):0}}
+function resolved(n,d){return state.history.some(h=>Number(h?.cycleNumber)===Number(n)&&Number(h?.cycleDay)===Number(d)&&(h.type==="workout"||h.type==="skip"||(h.type==="rest"&&h.restKind==="scheduled")))}
+function advance(){if(state.cycle.day>=PLAN.length){state.cycle.number++;state.cycle.day=1}else state.cycle.day++;const p=currentPlan();state.currentDay=p.id;state.sessionMode=p.id==="rest"?"rest":"workout";resetDay(p)}
+function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove("show"),1700)}
 
-function keyFor(ex, i) {
-  return `${i}_${ex.n}`;
-}
+function renderProfile(){document.title=PROFILE.title;document.getElementById("appTitle").textContent=PROFILE.title;document.getElementById("targetPhase").textContent=PROFILE.phase;document.getElementById("dailyTargets").innerHTML=PROFILE.dailyTargets.map(i=>`<div class="nutriCard"><b>${esc(i.value)}</b><span>${esc(i.label)}</span></div>`).join("");document.getElementById("nutritionPrinciples").innerHTML=PROFILE.nutritionPrinciples.map(i=>`<div class="settingsRow"><div class="left"><b>${esc(i.title)}</b><span>${esc(i.detail)}</span></div></div>`).join("")}
+function histTitle(h){if(h.type==="skip")return"固定休息 · 已跳过";if(h.type==="rest")return h.restKind==="scheduled"?"固定休息":"临时休息";return h.title||"训练"}
+function histMeta(h){const a=h.cycleNumber&&h.cycleDay?`周期 ${h.cycleNumber} · Day ${h.cycleDay}`:"";if(h.type==="skip")return[a,"跳过固定休息，周期已推进"].filter(Boolean).join(" · ");if(h.type==="rest")return[a,h.plannedTitle?`原计划 ${h.plannedTitle}`:"",h.note].filter(Boolean).join(" · ")||"休息";return[a,Number.isFinite(Number(h.doneSets))?`${h.doneSets}/${h.totalSets} 工作组 · 完成度 ${h.pct??0}%`:"",h.note].filter(Boolean).join(" · ")}
+function renderCycle(){document.getElementById("cycleLabel").textContent=`第 ${state.cycle.number} 个训练周期 · Day ${state.cycle.day} / ${PLAN.length}`;const h=state.history.at(-1);document.getElementById("lastRecordText").textContent=h?`${(h.localDate||h.date)===fmtDate()?"今天":(h.localDate||h.date||"")} · ${histTitle(h)}`:"暂无记录"}
+function renderDays(){document.getElementById("dayStrip").innerHTML=PLAN.map((d,i)=>{const n=i+1,a=n===state.cycle.day,r=resolved(state.cycle.number,n);return`<div class="daychip ${a?"active":""} ${r?"resolved":""}"><strong>${n}</strong><span>${r?"✓":a?"当前":"待"}</span></div>`}).join("")}
+function bindWorkout(day){document.querySelectorAll("#exerciseList .exercise").forEach(card=>{const i=+card.dataset.i,x=day.ex[i],e=state.days[day.id].ex[card.dataset.k];card.querySelector(".collapseBtn").onclick=()=>card.querySelector(".exBody").classList.toggle("hidden");const wi=card.querySelector("[data-weight]");wi.onchange=()=>{e.weight=Number(wi.value)||0;persist()};card.querySelectorAll("[data-w]").forEach(b=>b.onclick=()=>{if(!x.step)return;e.weight=Math.max(0,Math.round((Number(e.weight)+Number(b.dataset.w)*x.step)*10)/10);persist();renderAll()});card.querySelectorAll(".setrow").forEach(row=>{const s=e.sets[+row.dataset.si];row.querySelectorAll("[data-rep]").forEach(b=>b.onclick=()=>{s.reps=Math.max(0,Number(s.reps)+Number(b.dataset.rep));persist();renderAll()});row.querySelectorAll("[data-rir]").forEach(b=>b.onclick=()=>{s.rir=Number(b.dataset.rir);persist();renderAll()});row.querySelector("[data-done]").onclick=()=>{s.done=!s.done;persist();if(s.done&&x.rest>0)startRest(x.rest);renderAll()}})})}
+function renderWorkout(){const d=currentPlan(),locked=archivedToday(),rest=scheduledRest()||tempRest(),c=calc(d);document.getElementById("todayText").textContent=`${fmtDate()} · ${PROFILE.phase}`;document.getElementById("heroEyebrow").textContent=locked?"明日计划":rest?"今日休息":"今日计划";document.getElementById("heroTitle").textContent=rest?"休息":d.title;document.getElementById("heroSub").textContent=tempRest()?`临时休息 · 原计划 ${d.title}`:d.focus;document.getElementById("statSets").textContent=rest?"—":`${c.done}/${c.total}`;document.getElementById("statEx").textContent=rest?"—":`${c.doneEx}/${d.ex.length}`;document.getElementById("statTime").textContent=rest?"恢复":d.time;document.getElementById("progressPct").textContent=rest?"REST":`${c.pct}%`;document.getElementById("progressRing").style.setProperty("--p",rest?0:c.pct);
+const banner=document.getElementById("archiveBanner");banner.classList.toggle("hidden",!locked);if(locked){document.getElementById("archiveBannerTitle").textContent=state.lastArchive?.type==="rest"?"今日休息已归档 ✓":"今日训练已归档 ✓";document.getElementById("archiveBannerText").textContent=`已保存 ${state.lastArchive?.title||"今日记录"}。当前展示明日计划；到下一自然日会自动显示为今日计划。`}
+const toggle=document.getElementById("toggleRestBtn"),skip=document.getElementById("skipRestBtn"),finish=document.getElementById("finishWorkout"),note=document.getElementById("dayNote"),list=document.getElementById("exerciseList");toggle.classList.toggle("hidden",locked||scheduledRest());skip.classList.toggle("hidden",locked||!scheduledRest());toggle.textContent=tempRest()?"改回今日训练":"今日改为休息";finish.classList.toggle("hidden",locked);finish.textContent=rest?"提交今日休息":"提交今日数据";note.disabled=locked;note.value=state.days[d.id]?.note||"";
+if(rest){list.innerHTML=`<div class="historyCard restCard"><div class="restIcon">☾</div><b>${tempRest()?"今天临时休息":"固定恢复日"}</b><div class="historyMeta">${tempRest()?`本次休息不会推进训练周期，下一训练仍是 ${esc(d.title)}。`:"正常提交后本周期结束并进入下一周期 Day 1；也可以跳过休息直接进入下一周期。"}</div></div>`;return}
+list.innerHTML=d.ex.map((x,i)=>{const k=keyFor(x,i),e=state.days[d.id].ex[k],all=e.sets.length&&e.sets.every(s=>s.done),unit=x.n==="平板支撑"?"秒":"次";return`<div class="exercise ${all?"complete":""}" data-k="${esc(k)}" data-i="${i}"><div class="exHead"><div><div class="exName">${i+1}. ${esc(x.n)}</div><div class="exMeta">${x.s} 组 · 目标 ${x.r}${unit} · RIR ${x.rir} · 休息 ${x.rest||0} 秒</div><div class="exGoal">${esc(x.goal)}</div></div><button class="collapseBtn">⌄</button></div><div class="exBody"><div class="weightBox"><button class="stepBtn" data-w="-1">−</button><div class="weightCenter"><input inputmode="decimal" value="${esc(e.weight)}" data-weight ${locked?"disabled":""}><small>${esc(x.u)}</small></div><button class="stepBtn" data-w="1">＋</button></div><div class="sets">${e.sets.map((s,si)=>`<div class="setrow" data-si="${si}"><div class="setNum">S${si+1}</div><div class="repWrap"><button class="miniBtn" data-rep="-1">−</button><div class="repVal">${esc(s.reps)}</div><button class="miniBtn" data-rep="1">＋</button></div><div class="rirPills">${[3,2,1,0].map(v=>`<button class="rirPill ${Number(s.rir)===v?"sel":""}" data-rir="${v}">${v}</button>`).join("")}</div><button class="doneBtn ${s.done?"on":""}" data-done>${s.done?"✓":"○"}</button></div>`).join("")}</div><div class="exNote">${esc(x.note)}</div></div></div>`}).join("");if(!locked)bindWorkout(d)}
+function renderHistory(){const el=document.getElementById("historyList");if(!state.history.length){el.innerHTML=`<div class="historyCard"><b>还没有归档记录</b><div class="historyMeta">提交一次训练或休息后会出现在这里。</div></div>`;return}el.innerHTML=[...state.history].reverse().map(h=>`<div class="historyCard"><div class="historyTop"><b>${esc(histTitle(h))}</b><span>${esc(h.localDate||h.date||"")}</span></div><div class="historyMeta">${esc(histMeta(h))}</div></div>`).join("")}
+function renderAll(){ensureState();renderCycle();renderDays();renderWorkout();renderHistory()}
+renderProfile();renderAll();
 
-function currentPlan() {
-  return PLAN.find(d => d.id === state.currentDay) || PLAN[0];
-}
+document.getElementById("dayNote").oninput=e=>{if(archivedToday())return;state.days[currentPlan().id].note=e.target.value;persist()};
+document.getElementById("toggleRestBtn").onclick=()=>{if(archivedToday()||scheduledRest())return;state.sessionMode=tempRest()?"workout":"rest";persist();renderAll()};
+document.getElementById("skipRestBtn").onclick=()=>{const d=currentPlan();if(archivedToday()||!scheduledRest())return;if(!confirm("跳过本次固定休息并直接进入下一训练周期吗？"))return;state.history.push({type:"skip",status:"skipped",restKind:"scheduled",cycleNumber:state.cycle.number,cycleDay:state.cycle.day,dayId:d.id,title:d.title,localDate:fmtDate(),date:fmtDate(),submittedAt:new Date().toISOString(),timezone:tz()});advance();persist();renderAll();toast("已跳过固定休息，进入下一周期")};
+document.getElementById("finishWorkout").onclick=()=>{if(archivedToday())return toast("今天已经归档过一次");const d=currentPlan(),c=calc(d),rest=scheduledRest()||tempRest();document.getElementById("finishSheetTitle").textContent=rest?"提交今日休息？":"提交今日数据？";document.getElementById("finishSummary").textContent=rest?(scheduledRest()?`周期 ${state.cycle.number} · Day ${state.cycle.day} · 固定休息。`:`周期 ${state.cycle.number} · Day ${state.cycle.day} · 临时休息，原计划 ${d.title}。`):`周期 ${state.cycle.number} · Day ${state.cycle.day} · ${d.title}，完成 ${c.done}/${c.total} 个工作组，完成度 ${c.pct}%。`;document.getElementById("finishSheetHint").textContent=scheduledRest()?"提交后归档休息，并进入下一训练周期 Day 1。":tempRest()?"提交后归档今天的休息，但训练周期不推进；下一次仍执行当前计划。":"提交后完整归档本次训练，清空当前草稿，并推进到下一周期日。今天剩余时间显示“明日计划”。";document.getElementById("finishSheet").classList.add("show")};
+document.getElementById("sheetCancel").onclick=()=>document.getElementById("finishSheet").classList.remove("show");
+document.getElementById("sheetConfirm").onclick=()=>{if(archivedToday()){document.getElementById("finishSheet").classList.remove("show");return toast("今天已经归档过一次")}const d=currentPlan(),c=calc(d),now=new Date(),date=fmtDate(now),zone=tz(),note=state.days[d.id]?.note||"",tmp=tempRest(),fixed=scheduledRest();if(tmp||fixed){state.history.push({type:"rest",restKind:fixed?"scheduled":"inserted",cycleNumber:state.cycle.number,cycleDay:state.cycle.day,dayId:d.id,title:"休息",plannedDayId:tmp?d.id:null,plannedTitle:tmp?d.title:null,note,localDate:date,date,submittedAt:now.toISOString(),timezone:zone});state.lastArchive={localDate:date,submittedAt:now.toISOString(),timezone:zone,type:"rest",title:tmp?`休息 · 原计划 ${d.title}`:"固定休息"};resetDay(d);if(fixed)advance();else{state.sessionMode="workout";state.currentDay=d.id}}else{const exercises=d.ex.map((x,i)=>{const e=state.days[d.id].ex[keyFor(x,i)];return{name:x.n,weight:e.weight,unit:x.u,sets:e.sets.map(s=>({reps:s.reps,rir:s.rir,done:!!s.done}))}});state.history.push({type:"workout",status:"completed",cycleNumber:state.cycle.number,cycleDay:state.cycle.day,dayId:d.id,title:d.title,focus:d.focus,doneSets:c.done,totalSets:c.total,pct:c.pct,note,exercises,localDate:date,date,submittedAt:now.toISOString(),timezone:zone});state.lastArchive={localDate:date,submittedAt:now.toISOString(),timezone:zone,type:"workout",title:d.title};resetDay(d);advance()}persist();document.getElementById("finishSheet").classList.remove("show");renderAll();toast("今日数据已归档")};
 
-function calc(day) {
-  let total = 0;
-  let done = 0;
-  let doneEx = 0;
-  day.ex.forEach((x, i) => {
-    const entry = state.days[day.id]?.ex?.[keyFor(x, i)];
-    const sets = entry?.sets || [];
-    total += sets.length;
-    const finished = sets.filter(v => v.done).length;
-    done += finished;
-    if (sets.length && finished === sets.length) doneEx++;
-  });
-  return { total, done, doneEx, pct: total ? Math.round(done / total * 100) : 0 };
-}
-
-function fmtDate(d = new Date()) {
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-}
-
-function toast(msg) {
-  const t = document.getElementById("toast");
-  t.textContent = msg;
-  t.classList.add("show");
-  clearTimeout(toast._t);
-  toast._t = setTimeout(() => t.classList.remove("show"), 1600);
-}
-
-function renderProfile() {
-  document.title = PROFILE.title;
-  document.getElementById("appTitle").textContent = PROFILE.title;
-  document.getElementById("todayText").textContent = `${fmtDate()} · ${PROFILE.phase}`;
-  document.getElementById("targetPhase").textContent = PROFILE.phase;
-
-  const targets = document.getElementById("dailyTargets");
-  targets.innerHTML = PROFILE.dailyTargets.map(item => `
-    <div class="nutriCard"><b>${item.value}</b><span>${item.label}</span></div>
-  `).join("");
-
-  const principles = document.getElementById("nutritionPrinciples");
-  principles.innerHTML = PROFILE.nutritionPrinciples.map(item => `
-    <div class="settingsRow"><div class="left"><b>${item.title}</b><span>${item.detail}</span></div></div>
-  `).join("");
-}
-
-function renderDays() {
-  const el = document.getElementById("dayStrip");
-  el.innerHTML = PLAN.map(d => {
-    const c = calc(d);
-    return `<button class="daychip ${d.id === state.currentDay ? "active" : ""}" data-id="${d.id}">
-      <strong>${d.day.replace("周", "")}</strong><span>${d.id === "rest" ? "休息" : c.pct + "%"}</span>
-    </button>`;
-  }).join("");
-
-  el.querySelectorAll(".daychip").forEach(b => {
-    b.onclick = () => {
-      state.currentDay = b.dataset.id;
-      persist();
-      renderAll();
-    };
-  });
-}
-
-function renderWorkout() {
-  const day = currentPlan();
-  const c = calc(day);
-  document.getElementById("heroEyebrow").textContent = day.id === "rest" ? "恢复" : "今日训练";
-  document.getElementById("heroTitle").textContent = day.title;
-  document.getElementById("heroSub").textContent = day.focus;
-  document.getElementById("statSets").textContent = `${c.done}/${c.total}`;
-  document.getElementById("statEx").textContent = `${c.doneEx}/${day.ex.length}`;
-  document.getElementById("statTime").textContent = day.time;
-  document.getElementById("progressPct").textContent = `${c.pct}%`;
-  document.getElementById("progressRing").style.setProperty("--p", c.pct);
-  document.getElementById("dayNote").value = state.days[day.id]?.note || "";
-
-  const list = document.getElementById("exerciseList");
-  if (!day.ex.length) {
-    list.innerHTML = `<div class="historyCard" style="text-align:center;padding:28px 16px">
-      <div style="font-size:32px;margin-bottom:8px">☾</div>
-      <b>今天休息</b>
-      <div class="historyMeta">可以散步、简单拉伸、轻松活动。不要为了补课额外塞大量训练。</div>
-    </div>`;
-    document.getElementById("finishWorkout").classList.add("hidden");
-    return;
-  }
-
-  document.getElementById("finishWorkout").classList.remove("hidden");
-  list.innerHTML = day.ex.map((x, i) => {
-    const k = keyFor(x, i);
-    const s = state.days[day.id].ex[k];
-    const all = s.sets.every(v => v.done);
-    const repUnit = x.n === "平板支撑" ? "秒" : "次";
-    return `<div class="exercise ${all ? "complete" : ""}" data-k="${k}" data-i="${i}">
-      <div class="exHead">
-        <div>
-          <div class="exName">${i + 1}. ${x.n}</div>
-          <div class="exMeta">${x.s} 组 · 目标 ${x.r}${repUnit} · RIR ${x.rir} · 休息 ${x.rest || 0} 秒</div>
-          <div class="exGoal">${x.goal}</div>
-        </div>
-        <button class="collapseBtn">⌄</button>
-      </div>
-      <div class="exBody">
-        <div class="weightBox">
-          <button class="stepBtn" data-w="-1">−</button>
-          <div class="weightCenter">
-            <input inputmode="decimal" value="${s.weight}" data-weight>
-            <small>${x.u}</small>
-          </div>
-          <button class="stepBtn" data-w="1">＋</button>
-        </div>
-        <div class="sets">
-          ${s.sets.map((set, si) => `
-            <div class="setrow" data-si="${si}">
-              <div class="setNum">S${si + 1}</div>
-              <div class="repWrap">
-                <button class="miniBtn" data-rep="-1">−</button>
-                <div class="repVal">${set.reps}</div>
-                <button class="miniBtn" data-rep="1">＋</button>
-              </div>
-              <div class="rirPills">
-                ${[3, 2, 1, 0].map(v => `<button class="rirPill ${Number(set.rir) === v ? "sel" : ""}" data-rir="${v}">${v}</button>`).join("")}
-              </div>
-              <button class="doneBtn ${set.done ? "on" : ""}" data-done>${set.done ? "✓" : "○"}</button>
-            </div>`).join("")}
-        </div>
-        <div class="exNote">${x.note}</div>
-      </div>
-    </div>`;
-  }).join("");
-
-  list.querySelectorAll(".exercise").forEach(card => {
-    const i = Number(card.dataset.i);
-    const x = day.ex[i];
-    const k = card.dataset.k;
-    const s = state.days[day.id].ex[k];
-
-    card.querySelector(".collapseBtn").onclick = () => card.querySelector(".exBody").classList.toggle("hidden");
-
-    const wi = card.querySelector("[data-weight]");
-    wi.onchange = () => {
-      s.weight = Number(wi.value) || 0;
-      persist();
-    };
-
-    card.querySelectorAll("[data-w]").forEach(b => {
-      b.onclick = () => {
-        if (!x.step) return;
-        s.weight = Math.max(0, Math.round((Number(s.weight) + Number(b.dataset.w) * x.step) * 10) / 10);
-        persist();
-        renderAll();
-      };
-    });
-
-    card.querySelectorAll(".setrow").forEach(row => {
-      const si = Number(row.dataset.si);
-      const set = s.sets[si];
-
-      row.querySelectorAll("[data-rep]").forEach(b => {
-        b.onclick = () => {
-          set.reps = Math.max(0, Number(set.reps) + Number(b.dataset.rep));
-          persist();
-          renderAll();
-        };
-      });
-
-      row.querySelectorAll("[data-rir]").forEach(b => {
-        b.onclick = () => {
-          set.rir = Number(b.dataset.rir);
-          persist();
-          renderAll();
-        };
-      });
-
-      row.querySelector("[data-done]").onclick = () => {
-        set.done = !set.done;
-        persist();
-        if (set.done && x.rest > 0) startRest(x.rest);
-        renderAll();
-      };
-    });
-  });
-}
-
-document.getElementById("dayNote").oninput = e => {
-  const d = currentPlan();
-  state.days[d.id].note = e.target.value;
-  persist();
-};
-
-let timerInt = null;
-let timerLeft = 0;
-
-function startRest(sec) {
-  clearInterval(timerInt);
-  timerLeft = sec;
-  document.getElementById("restTimer").classList.add("show");
-  paintTimer();
-  timerInt = setInterval(() => {
-    timerLeft--;
-    paintTimer();
-    if (timerLeft <= 0) {
-      clearInterval(timerInt);
-      document.getElementById("restTimer").classList.remove("show");
-      toast("休息结束，可以开始下一组");
-      if (navigator.vibrate) navigator.vibrate([120, 80, 120]);
-    }
-  }, 1000);
-}
-
-function paintTimer() {
-  const m = Math.floor(timerLeft / 60);
-  const s = timerLeft % 60;
-  document.getElementById("timerDisplay").textContent = `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
-}
-
-document.getElementById("timerPlus").onclick = () => {
-  timerLeft += 30;
-  paintTimer();
-};
-
-document.getElementById("timerSkip").onclick = () => {
-  clearInterval(timerInt);
-  document.getElementById("restTimer").classList.remove("show");
-};
-
-function renderHistory() {
-  const el = document.getElementById("historyList");
-  if (!state.history.length) {
-    el.innerHTML = `<div class="historyCard"><b>还没有完成记录</b><div class="historyMeta">完成一次训练后会出现在这里。</div></div>`;
-    return;
-  }
-
-  el.innerHTML = state.history.slice().reverse().map(h => `
-    <div class="historyCard">
-      <div class="historyTop"><b>${h.title}</b><span>${h.date}</span></div>
-      <div class="historyMeta">${h.doneSets}/${h.totalSets} 工作组 · 完成度 ${h.pct}%${h.note ? ` · ${h.note}` : ""}</div>
-    </div>`).join("");
-}
-
-function renderAll() {
-  renderDays();
-  renderWorkout();
-  renderHistory();
-}
-
-renderProfile();
-renderAll();
-
-document.getElementById("finishWorkout").onclick = () => {
-  const d = currentPlan();
-  const c = calc(d);
-  document.getElementById("finishSummary").textContent = `今天完成 ${c.done}/${c.total} 个工作组，完成度 ${c.pct}%。`;
-  document.getElementById("finishSheet").classList.add("show");
-};
-
-document.getElementById("sheetCancel").onclick = () => document.getElementById("finishSheet").classList.remove("show");
-
-document.getElementById("sheetConfirm").onclick = () => {
-  const d = currentPlan();
-  const c = calc(d);
-  state.history.push({
-    date: fmtDate(),
-    dayId: d.id,
-    title: d.title,
-    doneSets: c.done,
-    totalSets: c.total,
-    pct: c.pct,
-    note: state.days[d.id].note || ""
-  });
-  persist();
-  document.getElementById("finishSheet").classList.remove("show");
-  toast("已保存本次训练");
-  renderHistory();
-};
-
-document.querySelectorAll(".navBtn").forEach(b => {
-  b.onclick = () => {
-    document.querySelectorAll(".navBtn").forEach(x => x.classList.remove("active"));
-    b.classList.add("active");
-    document.querySelectorAll(".view").forEach(x => x.classList.remove("active"));
-    document.getElementById(`view${b.dataset.view}`).classList.add("active");
-  };
-});
-
-function exportData() {
-  const payload = {
-    schemaVersion: 1,
-    profileId: PROFILE.id,
-    exportedAt: new Date().toISOString(),
-    ...state
-  };
-  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = `训练打卡_${fmtDate()}.json`;
-  a.click();
-  setTimeout(() => URL.revokeObjectURL(a.href), 500);
-}
-
-document.getElementById("exportBtn").onclick = exportData;
-document.getElementById("quickExport").onclick = exportData;
-
-document.getElementById("importInput").onchange = async e => {
-  const f = e.target.files[0];
-  if (!f) return;
-  try {
-    const obj = JSON.parse(await f.text());
-    if (!obj.days || !obj.history) throw new Error("invalid data");
-    state = {
-      currentDay: obj.currentDay || PROFILE.defaultDay,
-      days: obj.days,
-      history: obj.history
-    };
-    PLAN.forEach(initDay);
-    persist();
-    renderAll();
-    toast("导入成功");
-  } catch {
-    toast("导入失败：文件格式不正确");
-  } finally {
-    e.target.value = "";
-  }
-};
-
-document.getElementById("resetDay").onclick = () => {
-  const d = currentPlan();
-  if (!confirm(`确定重置 ${d.title} 的本次打卡吗？`)) return;
-  delete state.days[d.id];
-  initDay(d);
-  persist();
-  renderAll();
-  toast("已重置当前训练日");
-};
-
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {}));
-}
+document.querySelectorAll(".navBtn").forEach(b=>b.onclick=()=>{document.querySelectorAll(".navBtn").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));document.getElementById(`view${b.dataset.view}`).classList.add("active")});
+function exportData(){const payload={schemaVersion:2,profileId:PROFILE.id,exportedAt:new Date().toISOString(),...state},blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`训练打卡_${fmtDate()}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)}
+document.getElementById("exportBtn").onclick=exportData;document.getElementById("quickExport").onclick=exportData;
+document.getElementById("importInput").onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const obj=JSON.parse(await f.text());if(!obj.days||!Array.isArray(obj.history))throw Error("invalid");state=obj;ensureState();persist();renderAll();toast("导入成功")}catch(err){console.error(err);toast("导入失败：文件格式不正确")}finally{e.target.value=""}};
+document.getElementById("resetDay").onclick=()=>{if(archivedToday())return toast("今天已经归档，当前展示的是明日计划");const d=currentPlan();if(!confirm(`确定重置 ${tempRest()?"今日休息草稿":d.title} 吗？`))return;resetDay(d);state.sessionMode=d.id==="rest"?"rest":"workout";persist();renderAll();toast("已重置当前草稿")};
+let timerInt=null,timerLeft=0;function paintTimer(){document.getElementById("timerDisplay").textContent=`${pad(Math.floor(timerLeft/60))}:${pad(timerLeft%60)}`}function startRest(sec){clearInterval(timerInt);timerLeft=sec;document.getElementById("restTimer").classList.add("show");paintTimer();timerInt=setInterval(()=>{timerLeft--;paintTimer();if(timerLeft<=0){clearInterval(timerInt);document.getElementById("restTimer").classList.remove("show");toast("休息结束，可以开始下一组");navigator.vibrate?.([120,80,120])}},1000)}document.getElementById("timerPlus").onclick=()=>{timerLeft+=30;paintTimer()};document.getElementById("timerSkip").onclick=()=>{clearInterval(timerInt);document.getElementById("restTimer").classList.remove("show")};
+let dateTimer;function scheduleDateRefresh(){clearTimeout(dateTimer);const n=new Date(),m=new Date(n);m.setHours(24,0,1,0);dateTimer=setTimeout(()=>{renderAll();scheduleDateRefresh()},Math.max(1000,m-n))}document.addEventListener("visibilitychange",()=>{if(!document.hidden)renderAll()});window.addEventListener("focus",renderAll);scheduleDateRefresh();
+if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
