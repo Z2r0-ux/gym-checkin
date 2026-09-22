@@ -1,0 +1,35 @@
+.authIntro{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.6;
+  margin-bottom:12px;
+}
+.authInput{
+  width:100%;
+  border:1px solid var(--line);
+  background:var(--card2);
+  color:var(--text);
+  border-radius:14px;
+  padding:12px 13px;
+  outline:none;
+  margin-top:8px;
+}
+.authInput:focus{border-color:var(--brand)}
+.authActions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:12px;
+}
+.primarySmall{
+  background:var(--brand);
+  border-color:var(--brand);
+  color:#fff;
+}
+#cloudStatus{
+  max-width:52%;
+  text-align:right;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
