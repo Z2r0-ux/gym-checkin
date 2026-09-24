@@ -1,4 +1,4 @@
-const CACHE="gym-checkin-v8";
+const CACHE="gym-checkin-v9";
 const ASSETS=[
   "./",
   "./index.html",
@@ -7,6 +7,7 @@ const ASSETS=[
   "./app.js",
   "./cloud-sync.js",
   "./data/profile.js",
+  "./data/exercises.js",
   "./data/program.js",
   "./data/supabase-config.js",
   "./manifest.webmanifest",
