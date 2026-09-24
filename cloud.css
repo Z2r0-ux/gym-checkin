@@ -33,7 +33,6 @@
   text-overflow:ellipsis;
   white-space:nowrap;
 }
-
 .cycleSummary{
   display:grid;
   grid-template-columns:1.15fr .85fr;
@@ -97,7 +96,75 @@
 .restCard{text-align:center;padding:28px 18px}
 .restIcon{font-size:34px;margin-bottom:8px}
 .sessionLocked{opacity:.7;pointer-events:none}
+.weightCenter small{line-height:1.35}
+.setrow{display:block;padding:10px}
+.setTop{
+  display:grid;
+  grid-template-columns:38px minmax(0,1fr) 46px;
+  gap:8px;
+  align-items:center;
+}
+.setWeight{
+  min-width:0;
+  display:grid;
+  grid-template-columns:30px minmax(72px,1fr) 30px;
+  gap:6px;
+  align-items:center;
+}
+.setWeightValue{
+  min-width:0;
+  text-align:center;
+  background:#171c25;
+  border:1px solid #2a3140;
+  border-radius:10px;
+  padding:4px 5px;
+}
+.setWeightValue input{
+  display:block;
+  width:100%;
+  min-width:0;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:var(--text);
+  text-align:center;
+  font-weight:800;
+  font-size:15px;
+}
+.setWeightValue small{
+  display:block;
+  color:var(--muted);
+  font-size:8px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.setBottom{
+  display:grid;
+  grid-template-columns:1fr 1.25fr;
+  gap:10px;
+  align-items:center;
+  margin-top:9px;
+  padding-top:9px;
+  border-top:1px solid #202634;
+}
+.setControl{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:6px;
+}
+.setControl>span{
+  flex:0 0 auto;
+  color:var(--muted);
+  font-size:9px;
+}
+.setControl .rirPills{min-width:0;flex:1}
+.setControl .rirPill{min-width:26px;padding:0 5px}
 @media (max-width:390px){
   .cycleSummary{grid-template-columns:1fr}
   .cycleSummaryItem.right{text-align:left}
+  .setBottom{grid-template-columns:1fr}
+  .setControl{justify-content:flex-start}
 }
