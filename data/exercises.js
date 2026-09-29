@@ -34,5 +34,6 @@ window.EXERCISE_LIBRARY = {
   cable_fly:{id:"cable_fly",name:"绳索夹胸",category:"胸",equipment:"绳索",unit:"kg/侧",step:2.5,defaultRest:75,note:"保持肘部角度稳定，胸部主动夹紧。"},
   romanian_deadlift:{id:"romanian_deadlift",name:"罗马尼亚硬拉",category:"腿后侧/臀",equipment:"杠铃",unit:"kg",step:2.5,defaultRest:150,note:"髋向后推，脊柱保持中立，先用轻重量学习动作。"},
   hip_thrust:{id:"hip_thrust",name:"臀推",category:"臀",equipment:"杠铃/器械",unit:"kg",step:5,defaultRest:120,note:"顶部充分伸髋，不要用腰椎过伸代偿。"},
-  bulgarian_split_squat:{id:"bulgarian_split_squat",name:"保加利亚分腿蹲",category:"腿/臀",equipment:"哑铃",unit:"kg/只",step:2.5,defaultRest:90,note:"保持躯干稳定，前脚全脚掌发力。"}
+  bulgarian_split_squat:{id:"bulgarian_split_squat",name:"保加利亚分腿蹲",category:"腿/臀",equipment:"哑铃",unit:"kg/只",step:2.5,defaultRest:90,note:"保持躯干稳定，前脚全脚掌发力。"},
+  standing_db_lateral_raise:{id:"standing_db_lateral_raise",name:"站姿哑铃侧平举",category:"肩",equipment:"哑铃",unit:"kg/只",step:2.5,defaultRest:75,note:"手肘微屈，肩胛保持稳定，不耸肩、不借力摆动；优先控制动作幅度和中束张力。"}
 };
