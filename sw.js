@@ -1,4 +1,4 @@
-const CACHE="gym-checkin-v14";
+const CACHE="gym-checkin-v15";
 const ASSETS=[
   "./",
   "./index.html",
@@ -20,7 +20,9 @@ const ASSETS=[
 ];
 
 self.addEventListener("install",e=>{
-  e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting()));
+  // A new cache version must fetch fresh assets, including theme CSS and JS.
+  const requests=ASSETS.map(asset=>new Request(asset,{cache:"reload"}));
+  e.waitUntil(caches.open(CACHE).then(c=>c.addAll(requests)).then(()=>self.skipWaiting()));
 });
 
 self.addEventListener("activate",e=>{
