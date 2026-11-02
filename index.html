@@ -12,6 +12,8 @@
 <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png" />
 <link rel="stylesheet" href="./styles.css" />
 <link rel="stylesheet" href="./cloud.css" />
+<link rel="stylesheet" href="./theme.css" />
+<script src="./theme.js"></script>
 <title>训练打卡</title>
 </head>
 <body>
@@ -21,7 +23,7 @@
       <h1 id="appTitle">训练打卡</h1>
       <p id="todayText">身体重组 · 增肌 · 力量</p>
     </div>
-    <button class="iconbtn" id="quickExport" aria-label="导出">↗</button>
+    <div class="topActions"><button class="iconbtn" id="themeToggle" aria-label="切换主题" type="button">◐</button><button class="iconbtn" id="quickExport" aria-label="导出">↗</button></div>
   </div>
 
   <section id="viewWorkout" class="view active">
@@ -121,6 +123,8 @@
   </section>
 
   <section id="viewMore" class="view">
+    <div class="sectionTitle"><h2>外观主题</h2><span>自动保存</span></div>
+    <div class="settingsCard themeSettings"><label for="themeSelect">显示模式</label><select id="themeSelect"><option value="system">跟随系统</option><option value="light">浅色</option><option value="dark">深色</option></select></div>
     <div class="sectionTitle" style="margin-top:4px">
       <h2>云同步</h2><span id="cloudStatus">未登录 · 本机模式</span>
     </div>
