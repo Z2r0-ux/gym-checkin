@@ -9,8 +9,10 @@ gym-checkin/
 ├─ index.html                 # 页面结构
 ├─ styles.css                 # 界面样式
 ├─ app.js                     # 打卡、计时、历史、导入导出等应用逻辑
+├─ exercise-library.js        # 独立只读动作库：搜索、分类、动作详情
 ├─ data/
 │  ├─ profile.js              # 用户阶段、每日目标、饮食原则、本地存储键
+│  ├─ exercises.js            # 动作主数据：ID、名称、器械、单位、动作提示
 │  └─ program.js              # 当前训练计划、动作、重量、组数、RIR、休息时间
 ├─ manifest.webmanifest       # PWA 配置
 ├─ sw.js                      # 离线缓存
@@ -48,3 +50,11 @@ gym_mobile_v3
 ## 下一阶段
 
 当前结构已经为多用户做好第一步准备。后续可以在不重写界面的情况下，把 `profile.js` 和 `program.js` 改为按用户加载，并再接入登录与云端数据同步。
+
+
+## 动作库
+
+- 底部「动作库」标签可浏览当前已知动作，搜索名称、别名、器械，按训练部位筛选。
+- 点击动作查看主要部位、器械、记录单位、参考组间休息、动作提示，以及该动作是否安排在目前训练计划里。
+- 动作使用 `exerciseId` 作为稳定主键。动作库只读展示，**不会修改**训练计划、训练周期、历史归档、localStorage 或 Supabase。
+- 新动作维护在 `data/exercises.js`；训练安排仍由 `data/program.js` 独立维护。

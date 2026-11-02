@@ -57,7 +57,7 @@ button{touch-action:manipulation}
 .ring b,.ring small{position:relative;z-index:1}
 .ring b{font-size:19px}
 .ring small{display:block;color:var(--muted);font-size:9px;text-align:center;margin-top:-4px}
-.heroStats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px;position:relative;z-index:1}
+.heroStats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:16px;position:relative;z-index:1}
 .heroStat{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.05);border-radius:14px;padding:10px}
 .heroStat b{display:block;font-size:15px}
 .heroStat span{font-size:10px;color:var(--muted)}
@@ -187,3 +187,35 @@ button{touch-action:manipulation}
 .previewSet.complete{border-color:rgba(48,209,88,.35)}
 .previewSet.complete b{color:var(--ok)}
 .previewPlan{font-size:12px;color:var(--text);padding:9px 0}
+
+/* Searchable exercise library */
+.libraryIntro{font-size:12px;color:var(--muted);line-height:1.65;margin:0 2px 15px}
+.libraryFilters{display:grid;grid-template-columns:minmax(0,1fr) 128px;gap:8px;margin-bottom:10px}
+.libraryFilters input,.libraryFilters select{
+  min-width:0;width:100%;min-height:44px;border:1px solid var(--line);border-radius:12px;
+  padding:10px 11px;color:var(--text);background:var(--card2);font-size:13px;outline:none
+}
+.libraryFilters input:focus,.libraryFilters select:focus{border-color:var(--brand)}
+.libraryFilters select option{color:var(--text);background:var(--card2)}
+.libraryShown{font-size:12px;color:var(--muted);margin:5px 2px 10px}
+.libraryResults{display:grid;gap:9px}
+.libraryItem{background:var(--card);border:1px solid var(--line);border-radius:17px;overflow:hidden}
+.libraryItem[open]{border-color:rgba(124,92,255,.56)}
+.librarySummary{display:flex;align-items:center;gap:9px;padding:15px 13px;cursor:pointer;list-style:none;min-height:64px}
+.librarySummary::-webkit-details-marker{display:none}
+.librarySummaryMain{min-width:0;flex:1}
+.librarySummaryMain b{display:block;font-size:15px;font-weight:800}
+.librarySummaryMain span{display:block;margin-top:5px;font-size:11px;color:var(--muted)}
+.libraryInPlan{white-space:nowrap;font-size:10px;color:#dcd7ff;background:rgba(124,92,255,.18);border-radius:9px;padding:5px 7px}
+.libraryChevron{color:var(--muted);font-size:20px;transition:transform .15s}
+.libraryItem[open] .libraryChevron{transform:rotate(180deg)}
+.libraryDetails{padding:1px 13px 15px;border-top:1px solid var(--line)}
+.libraryInfoGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}
+.libraryInfoGrid>div{background:var(--card2);border-radius:11px;padding:10px;min-width:0}
+.libraryInfoGrid span{font-size:10px;color:var(--muted);display:block;margin-bottom:4px}
+.libraryInfoGrid b{font-size:12px;font-weight:700;overflow-wrap:anywhere}
+.libraryDetailLabel{font-size:12px;font-weight:800;margin:14px 0 5px}
+.libraryTechnique{font-size:12px;color:#c7ceda;line-height:1.65;margin:0}
+.libraryAliases{font-size:11px;color:var(--muted);line-height:1.5;margin:10px 0}
+.libraryPlanUse{font-size:11px;color:#c9c1ff;background:rgba(124,92,255,.09);padding:10px;border-radius:10px;margin-top:12px}
+.libraryEmpty{padding:26px 16px;text-align:center;color:var(--muted);font-size:12px;border:1px dashed var(--line);border-radius:16px}

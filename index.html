@@ -90,6 +90,30 @@
     <div id="historyList"></div>
   </section>
 
+  <section id="viewLibrary" class="view">
+    <div class="sectionTitle" style="margin-top:4px">
+      <h2>动作库</h2>
+      <span id="libraryTotal">动作资料</span>
+    </div>
+    <p class="libraryIntro">汇总当前已知动作。支持按部位筛选、名称与器械搜索，点击动作查看要点。这里只读查询，不改变训练计划或历史记录。</p>
+    <div class="libraryFilters">
+      <input id="librarySearch" type="search" placeholder="搜索动作名称、别名或器械" aria-label="搜索动作" autocomplete="off" />
+      <select id="libraryCategory" aria-label="筛选训练部位">
+        <option value="全部">全部部位</option>
+        <option value="胸">胸</option>
+        <option value="背">背</option>
+        <option value="肩">肩</option>
+        <option value="手臂">手臂</option>
+        <option value="腿">腿</option>
+        <option value="臀">臀</option>
+        <option value="核心">核心</option>
+        <option value="有氧与恢复">有氧与恢复</option>
+      </select>
+    </div>
+    <p class="libraryShown" id="libraryShown" role="status" aria-live="polite"></p>
+    <div class="libraryResults" id="libraryResults"></div>
+  </section>
+
   <section id="viewMore" class="view">
     <div class="sectionTitle" style="margin-top:4px">
       <h2>云同步</h2><span id="cloudStatus">未登录 · 本机模式</span>
@@ -146,6 +170,7 @@
 <div class="bottomNav">
   <button class="navBtn active" data-view="Workout"><span class="ico">●</span><span>训练</span></button>
   <button class="navBtn" data-view="Progress"><span class="ico">◫</span><span>记录</span></button>
+  <button class="navBtn" data-view="Library"><span class="ico">▦</span><span>动作库</span></button>
   <button class="navBtn" data-view="More"><span class="ico">•••</span><span>更多</span></button>
 </div>
 
@@ -177,6 +202,7 @@
 <script src="./data/program.js"></script>
 <script src="./data/supabase-config.js"></script>
 <script src="./app.js"></script>
+<script src="./exercise-library.js"></script>
 <script src="./cloud-sync.js"></script>
 </body>
 </html>

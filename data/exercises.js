@@ -37,3 +37,49 @@ window.EXERCISE_LIBRARY = {
   bulgarian_split_squat:{id:"bulgarian_split_squat",name:"保加利亚分腿蹲",category:"腿/臀",equipment:"哑铃",unit:"kg/只",step:2.5,defaultRest:90,note:"保持躯干稳定，前脚全脚掌发力。"},
   standing_db_lateral_raise:{id:"standing_db_lateral_raise",name:"站姿哑铃侧平举",category:"肩",equipment:"哑铃",unit:"kg/只",step:2.5,defaultRest:75,note:"手肘微屈，肩胛保持稳定，不耸肩、不借力摆动；优先控制动作幅度和中束张力。"}
 };
+
+// 补齐用户历史训练计划和训练记录中出现过的动作；保留旧 ID 以兼容归档。
+Object.assign(window.EXERCISE_LIBRARY, {
+  smith_shoulder_press:{id:"smith_shoulder_press",name:"史密斯推肩",category:"肩",equipment:"史密斯机",unit:"kg",step:2.5,defaultRest:120,note:"调整座椅使推举轨迹舒适，核心收紧；不要为了重量过度后仰。"},
+  dumbbell_shoulder_press:{id:"dumbbell_shoulder_press",name:"哑铃肩推",category:"肩",equipment:"哑铃",unit:"kg/只",step:2.5,defaultRest:90,note:"坐姿或站姿均可，手腕保持中立，避免耸肩及腰部过伸。"},
+  bent_over_rear_delt_fly:{id:"bent_over_rear_delt_fly",name:"俯身飞鸟",category:"后束",equipment:"哑铃",unit:"kg/只",step:1,defaultRest:60,note:"稳定躯干，肘部微屈，用肩后束带动双臂打开，避免甩动。"},
+  incline_dumbbell_curl:{id:"incline_dumbbell_curl",name:"上斜哑铃弯举",category:"二头",equipment:"哑铃",unit:"kg/只",step:2.5,defaultRest:75,note:"靠稳上斜凳，上臂自然垂下；不要抬肘借力，缓慢还原。"},
+  ab_wheel_rollout:{id:"ab_wheel_rollout",name:"健腹轮",category:"核心",equipment:"健腹轮",unit:"次",step:0,defaultRest:90,note:"从跪姿、小幅度开始；腹部主动收紧，不要塌腰，维持骨盆控制。"},
+  smith_machine_squat:{id:"smith_machine_squat",name:"史密斯深蹲",category:"腿/臀",equipment:"史密斯机",unit:"kg",step:2.5,defaultRest:150,note:"找到适合身体比例的站位，脚掌均匀发力，背部保持稳定。"},
+  glute_bridge:{id:"glute_bridge",name:"臀桥",category:"臀",equipment:"自重/杠铃",unit:"kg",step:2.5,defaultRest:90,note:"足底踩稳，顶端收紧臀部，避免用腰椎过度后仰代替伸髋。"},
+  conventional_deadlift:{id:"conventional_deadlift",name:"传统硬拉",category:"腿后侧/臀/背",equipment:"杠铃",unit:"kg",step:2.5,defaultRest:180,note:"保持杠铃靠近身体，发力前收紧核心并稳定脊柱；从轻重量学习。"},
+  recovery_walk:{id:"recovery_walk",name:"轻松步行",category:"有氧/恢复",equipment:"步行",unit:"分钟",step:5,defaultRest:0,note:"恢复日轻松步行，以能正常说话的强度为宜。"},
+  full_body_stretch:{id:"full_body_stretch",name:"全身拉伸",category:"恢复",equipment:"瑜伽垫/自重",unit:"分钟",step:5,defaultRest:0,note:"温和拉伸主要紧张部位，避免疼痛范围内强行加大幅度。"}
+});
+
+// 常见名称作为检索别名，不重复创建动作 ID。
+const EXERCISE_ALIASES={
+  barbell_bench_press:["卧推","平板杠铃卧推"],
+  flat_db_press:["哑铃卧推","平板哑铃推胸"],
+  incline_db_press:["上斜哑铃推胸"],
+  machine_chest_press:["坐姿推胸","器械卧推"],
+  pec_deck:["夹胸机","蝴蝶机"],
+  cable_fly:["绳索飞鸟","拉力器夹胸"],
+  rope_triceps_pushdown:["三头下压","绳索三头下压"],
+  assisted_pullup:["辅助引体","引体向上辅助"],
+  seated_cable_row:["坐姿绳索划船","器械划船"],
+  face_pull:["拉脸","绳索面拉"],
+  reverse_pec_deck:["反向飞鸟机","肩后束飞鸟"],
+  barbell_overhead_press:["杠铃肩推","站姿杠铃推举"],
+  standing_db_lateral_raise:["哑铃侧平举","侧平举"],
+  smith_shoulder_press:["史密斯机推肩"],
+  bent_over_rear_delt_fly:["俯身哑铃飞鸟","哑铃反向飞鸟"],
+  ab_wheel_rollout:["腹肌轮","滚轮"],
+  incline_walk:["跑步机爬坡走","爬坡快走","爬坡走"],
+  romanian_deadlift:["RDL","杠铃罗马尼亚硬拉"],
+  glute_bridge:["臀部桥式"],
+  hip_thrust:["臀部推举"],
+  hack_squat:["哈克机深蹲"],
+  leg_press:["坐姿腿举"],
+  calf_raise:["站姿提踵","坐姿提踵"],
+  plank:["平板"],
+  full_body_stretch:["拉伸","恢复拉伸"]
+};
+Object.entries(EXERCISE_ALIASES).forEach(([id,aliases])=>{
+  if(window.EXERCISE_LIBRARY[id]) window.EXERCISE_LIBRARY[id].aliases=aliases;
+});
