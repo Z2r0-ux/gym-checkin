@@ -1,9 +1,10 @@
-const CACHE="gym-checkin-v15";
+const CACHE="gym-checkin-v16";
 const ASSETS=[
   "./",
   "./index.html",
   "./styles.css",
   "./theme.css",
+  "./glass.css",
   "./theme.js",
   "./cloud.css",
   "./app.js",
