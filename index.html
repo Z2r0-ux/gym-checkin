@@ -62,7 +62,13 @@
       </div>
     </div>
 
+    <div class="dayNavigator" aria-label="训练日导航">
+      <button type="button" id="prevDayBtn" class="dayNavArrow" aria-label="上一训练日">‹</button>
+      <div class="dayNavigatorCenter"><small id="dayNavigatorLabel">当前训练日</small><b id="dayNavigatorTitle">Day 1</b></div>
+      <button type="button" id="nextDayBtn" class="dayNavArrow" aria-label="下一训练日">›</button>
+    </div>
     <div class="daystrip" id="dayStrip"></div>
+    <button type="button" class="backToCurrent hidden" id="backToCurrentBtn">返回当前训练日</button>
 
     <div class="sessionActions" id="sessionActions">
       <button class="sessionBtn" id="toggleRestBtn">今日改为休息</button>
