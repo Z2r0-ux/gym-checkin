@@ -87,7 +87,7 @@
   background:rgba(255,214,10,.08);
   color:#ffe66a;
 }
-.daychip{pointer-events:none;position:relative}
+.daychip{pointer-events:auto;position:relative}
 .daychip.resolved{
   border-color:rgba(48,209,88,.35);
   background:rgba(48,209,88,.08);
