@@ -13,6 +13,11 @@ html[data-theme="light"]{
   --glass-wallpaper:radial-gradient(ellipse at 0% 3%,rgba(164,181,255,.38),transparent 48%),radial-gradient(ellipse at 100% 36%,rgba(160,226,223,.28),transparent 48%),radial-gradient(ellipse at 12% 87%,rgba(241,201,225,.30),transparent 48%);
   --glass-lens:linear-gradient(135deg,rgba(255,255,255,.86),rgba(255,255,255,.22) 48%,rgba(202,196,255,.38));
   --glass-nav-text:#56617b;
+  --nav-tint:rgba(255,255,255,.12);
+  --nav-clear:rgba(255,255,255,.035);
+  --nav-edge:rgba(255,255,255,.62);
+  --nav-lens:linear-gradient(135deg,rgba(255,255,255,.32),rgba(255,255,255,.06) 50%,rgba(157,144,235,.14));
+  --nav-text-halo:rgba(255,255,255,.85);
   --muted:#5f6d84;
 }
 html[data-theme="dark"]{
@@ -29,6 +34,11 @@ html[data-theme="dark"]{
   --glass-wallpaper:radial-gradient(ellipse at 0% 0%,rgba(90,73,179,.36),transparent 48%),radial-gradient(ellipse at 100% 42%,rgba(37,115,134,.24),transparent 48%),radial-gradient(ellipse at 8% 95%,rgba(115,61,133,.22),transparent 45%);
   --glass-lens:linear-gradient(135deg,rgba(226,229,255,.24),rgba(159,169,221,.10) 48%,rgba(155,129,242,.26));
   --glass-nav-text:#b7c0d7;
+  --nav-tint:rgba(24,31,49,.20);
+  --nav-clear:rgba(24,31,49,.07);
+  --nav-edge:rgba(225,233,255,.28);
+  --nav-lens:linear-gradient(135deg,rgba(227,234,255,.18),rgba(227,234,255,.035) 50%,rgba(164,146,244,.13));
+  --nav-text-halo:rgba(5,10,24,.9);
   --muted:#b0b9d0;
 }
 body{position:relative;isolation:isolate}
@@ -111,21 +121,24 @@ html[data-theme] :is(.settingsRow,.libraryDetails){border-color:var(--glass-line
 .finishBtn{border-radius:22px;background:linear-gradient(125deg,#8a6aef,#6650d5);box-shadow:0 8px 22px rgba(98,68,191,.2),inset 0 1px 0 rgba(255,255,255,.35)}
 /* Floating controls carry the strongest refraction and edge light. */
 html[data-theme] .bottomNav{
-  border-radius:38px;background:linear-gradient(135deg,var(--glass-strong),var(--glass-fill));
-  border-color:var(--glass-edge);box-shadow:0 12px 36px rgba(34,40,78,.16),inset 0 1px 0 var(--glass-shine),inset 0 -1px 0 var(--glass-line);
-  backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);
+  border-radius:38px;background:linear-gradient(135deg,var(--nav-tint),var(--nav-clear));
+  border-color:var(--nav-edge);box-shadow:0 8px 28px rgba(34,40,78,.13),inset 0 1px 0 var(--nav-edge),inset 0 -1px 0 var(--glass-line);
+  backdrop-filter:blur(4px) saturate(160%);-webkit-backdrop-filter:blur(4px) saturate(160%);
 }
 html[data-theme] .bottomNav::before{
-  z-index:0;box-sizing:border-box;border-radius:30px;background:var(--glass-lens);border:1px solid var(--glass-edge);
-  box-shadow:0 3px 10px rgba(59,50,108,.12),inset 1px 1px 0 var(--glass-shine),inset -1px -1px 0 var(--glass-line);
+  z-index:0;box-sizing:border-box;border-radius:30px;background:var(--nav-lens);border:1px solid var(--nav-edge);
+  box-shadow:0 2px 8px rgba(59,50,108,.08),inset 1px 1px 0 var(--nav-edge),inset -1px -1px 0 var(--glass-line);
   transition:transform 440ms cubic-bezier(.2,.85,.2,1),scale 320ms cubic-bezier(.34,1.56,.64,1),background-color 180ms ease;
 }
 .bottomNav:active::before{scale:1.06 .94}
 .bottomNav::after{
-  content:"";position:absolute;inset:0;z-index:1;border-radius:inherit;pointer-events:none;
-  background:linear-gradient(115deg,var(--glass-shine),transparent 22%,transparent 78%,var(--glass-line));opacity:.4;
+  content:"";position:absolute;inset:-1px;z-index:1;border-radius:inherit;pointer-events:none;padding:1px;
+  background:linear-gradient(125deg,var(--glass-shine),transparent 25%,transparent 65%,var(--nav-edge));
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
 }
-html[data-theme] .navBtn{position:relative;z-index:2;color:var(--glass-nav-text);border-radius:30px;padding:10px 2px 9px}
+html[data-theme] .navBtn{position:relative;z-index:2;color:var(--glass-nav-text);border-radius:30px;padding:10px 2px 9px;text-shadow:0 1px 4px var(--nav-text-halo)}
 html[data-theme] .navBtn.active{color:var(--glass-accent);background:transparent;border-color:transparent}
 .navBtn .ico{height:25px;display:grid;place-items:center;margin-bottom:3px}
 .navBtn .ico svg{width:22px;height:22px;stroke-width:1.7}
