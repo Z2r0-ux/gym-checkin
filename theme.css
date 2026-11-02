@@ -1,0 +1,58 @@
+html[data-theme="light"]{--bg:#f4f7fb;--bg2:#edf1f8;--card:#fff;--card2:#f1f4f9;--line:#dce3ed;--text:#1a2637;--muted:#657188;--brand:#7259e9;--ok:#21864c;--shadow:0 12px 36px rgba(39,60,95,.10);color-scheme:light}
+html[data-theme="dark"]{color-scheme:dark}
+.topActions{display:flex;align-items:center;gap:8px}
+.dayNavigator{display:grid;grid-template-columns:44px minmax(0,1fr) 44px;align-items:center;gap:8px;margin:16px 0 0;padding:10px;border:1px solid var(--line);border-radius:18px;background:var(--card)}
+.dayNavArrow{width:44px;height:44px;border-radius:13px;border:1px solid var(--line);background:var(--card2);color:var(--text);font-size:25px;cursor:pointer}
+.dayNavArrow:disabled{opacity:.3}
+.dayNavigatorCenter{text-align:center;min-width:0}
+.dayNavigatorCenter small{display:block;font-size:11px;color:var(--muted)}
+.dayNavigatorCenter b{display:block;font-size:15px;margin-top:3px}
+.daychip,.daychip.active,.daychip.resolved{pointer-events:auto;cursor:pointer;touch-action:manipulation}
+.daychip{flex:0 0 auto;min-width:75px}
+.daychip.selected{border:2px solid var(--brand);background:rgba(124,92,255,.18)}
+.backToCurrent{width:100%;border:1px solid var(--brand);border-radius:13px;padding:11px;margin:4px 0;background:rgba(124,92,255,.13);color:var(--text);cursor:pointer}
+.app{padding-bottom:calc(126px + env(safe-area-inset-bottom))}
+.bottomNav{bottom:calc(12px + env(safe-area-inset-bottom));width:min(512px,calc(100% - 26px));padding:7px;border-radius:28px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;background:rgba(33,39,55,.69);border:1px solid rgba(255,255,255,.23);backdrop-filter:blur(26px) saturate(175%);-webkit-backdrop-filter:blur(26px) saturate(175%);box-shadow:0 16px 45px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.18)}
+.navBtn{border-radius:20px;padding:9px 2px;background:transparent;color:#ccd1df;min-width:0}
+.navBtn.active{background:rgba(148,126,255,.28);color:#fff;border-color:rgba(255,255,255,.15)}
+.navBtn span{font-size:11px}
+.restTimer{bottom:calc(105px + env(safe-area-inset-bottom))}
+.themeSettings{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.themeSettings label{font-size:13px;font-weight:700}
+.themeSettings select{background:var(--card2);color:var(--text);border:1px solid var(--line);border-radius:12px;padding:11px}
+html[data-theme="light"] .app{background:radial-gradient(1000px 420px at 50% -150px,rgba(123,94,255,.1),transparent 60%),var(--bg)}
+html[data-theme="light"] .hero{background:linear-gradient(145deg,#fff,#f3f2ff 54%,#eef3ff);border-color:var(--line)}
+html[data-theme="light"] .heroStat{background:#f0f2fc;border-color:#e4e8f2}
+html[data-theme="light"] .eyebrow,html[data-theme="light"] .exGoal{color:#6855b8}
+html[data-theme="light"] .ring{background:conic-gradient(var(--brand) calc(var(--p)*1%),#dfe5ef 0)}
+html[data-theme="light"] .ring:before{background:#fff}
+html[data-theme="light"] .daychip{background:#fff}
+html[data-theme="light"] .daychip strong{color:var(--text)}
+html[data-theme="light"] .daychip.active{background:#ebe6ff}
+html[data-theme="light"] .daychip.resolved{background:#e6f8ec}
+html[data-theme="light"] .daychip.resolved strong{color:#197445}
+html[data-theme="light"] .daychip.selected{background:#e6deff}
+html[data-theme="light"] .setrow{background:#f8f9fc;border-color:#e1e6ef}
+html[data-theme="light"] .setBottom{border-color:#dfe5ed}
+html[data-theme="light"] .setWeightValue{background:#fff;border-color:#e1e5ef}
+html[data-theme="light"] .stepBtn,html[data-theme="light"] .miniBtn,html[data-theme="light"] .collapseBtn{background:#e8ebf4;color:var(--text)}
+html[data-theme="light"] .rirPill{background:#fff;border-color:#dce3ed;color:#5e6979}
+html[data-theme="light"] .rirPill.sel{background:#e8e0ff;border-color:#947de6;color:#4d37a7}
+html[data-theme="light"] .doneBtn{background:#e7ebf4;color:#667385}
+html[data-theme="light"] .doneBtn.on{background:#e5f7e8;color:#187d45}
+html[data-theme="light"] .exNote{background:#f0f3f8;border-left-color:#a5afc2;color:#556175}
+html[data-theme="light"] .archiveBanner{background:#eaf8ef}
+html[data-theme="light"] .archiveBanner b{color:#177346}
+html[data-theme="light"] .sessionBtn.warning{color:#8c6115;background:#fff4d9}
+html[data-theme="light"] .sheetCard{background:#fff}
+html[data-theme="light"] .sheetActions .ghost{background:#e9edf5;color:var(--text)}
+html[data-theme="light"] .libraryTechnique{color:#59657a}
+html[data-theme="light"] .libraryInPlan{color:#49329f;background:#eee9ff}
+html[data-theme="light"] .libraryPlanUse{color:#5134a4;background:#eeeaff}
+html[data-theme="light"] .bottomNav{background:rgba(255,255,255,.70);border-color:rgba(255,255,255,.95);box-shadow:0 12px 42px rgba(56,74,105,.17),inset 0 1px 0 rgba(255,255,255,.9)}
+html[data-theme="light"] .navBtn{color:#5c6780}
+html[data-theme="light"] .navBtn.active{color:#4c38a4;background:rgba(121,93,241,.19)}
+html[data-theme="light"] .restTimer{background:#fff;color:var(--text);border-color:var(--line)}
+html[data-theme="light"] .timerActions button{background:#e7eaf2;color:var(--text)}
+html[data-theme="light"] .toast{background:#fff;color:var(--text);border-color:var(--line)}
+@media(max-width:360px){.bottomNav{width:calc(100% - 14px);gap:2px;padding:5px}.navBtn span{font-size:10px}}
