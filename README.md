@@ -58,3 +58,11 @@ gym_mobile_v3
 - 点击动作查看主要部位、器械、记录单位、参考组间休息、动作提示，以及该动作是否安排在目前训练计划里。
 - 动作使用 `exerciseId` 作为稳定主键。动作库只读展示，**不会修改**训练计划、训练周期、历史归档、localStorage 或 Supabase。
 - 新动作维护在 `data/exercises.js`；训练安排仍由 `data/program.js` 独立维护。
+
+## 供其他 agent 读取
+
+- [调用文档与字段说明](docs/agent-api.md)：HTTP、Python、浏览器与命令行示例。
+- [公开计划 JSON](api/v1/plan.json) 和 [接口发现清单](api/v1/manifest.json) 可直接通过 HTTP 获取；[llms.txt](llms.txt) 提供机器阅读入口。
+- 「更多 → 数据 → 导出给其他 agent」导出计划、当前进度、历史和同步状态，不暴露登录凭据。记录不发布到公共网址。
+- 页面内可用 `window.GymAgent.getPlan()`、`window.GymAgent.getSnapshot()`；其他机器可用 `node --use-env-proxy scripts/agent-read.mjs cloud`，由用户安全注入 `GYM_ACCESS_TOKEN` 后只读访问其云端记录。
+- 修改训练源数据后运行 `node scripts/generate-agent-plan.cjs`，一并提交生成的计划 JSON。

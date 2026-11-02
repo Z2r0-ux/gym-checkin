@@ -1,4 +1,4 @@
-const CACHE="gym-checkin-v17";
+const CACHE="gym-checkin-v18";
 const ASSETS=[
   "./",
   "./index.html",
@@ -10,6 +10,12 @@ const ASSETS=[
   "./app.js",
   "./exercise-library.js",
   "./cloud-sync.js",
+  "./agent-data.js",
+  "./agent.js",
+  "./api/v1/manifest.json",
+  "./api/v1/plan.json",
+  "./docs/agent-api.md",
+  "./llms.txt",
   "./data/profile.js",
   "./data/exercises.js",
   "./data/program.js",

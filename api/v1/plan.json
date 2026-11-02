@@ -1,0 +1,428 @@
+{
+  "schemaVersion": 1,
+  "kind": "gym-checkin.plan",
+  "profile": {
+    "id": "zijian",
+    "title": "训练打卡",
+    "phase": "身体重组",
+    "dailyTargets": [
+      {
+        "label": "kcal / 天",
+        "value": "2300–2500"
+      },
+      {
+        "label": "蛋白质",
+        "value": "140–150 g"
+      },
+      {
+        "label": "饮水",
+        "value": "2–3 L"
+      },
+      {
+        "label": "步数",
+        "value": "8000–10000"
+      },
+      {
+        "label": "睡眠",
+        "value": "7.5–9 h"
+      },
+      {
+        "label": "每周有氧",
+        "value": "2–3 次"
+      }
+    ],
+    "nutritionPrinciples": [
+      {
+        "title": "每餐优先蛋白质",
+        "detail": "鸡蛋、鸡肉、牛肉、鱼虾、牛奶、酸奶、豆制品"
+      },
+      {
+        "title": "正常吃碳水",
+        "detail": "米饭、面、燕麦、土豆、面包、水果"
+      },
+      {
+        "title": "控制高热量零食",
+        "detail": "奶茶、甜饮、炸物、夜宵、薯片、甜点、酒"
+      },
+      {
+        "title": "体重看 7 日平均",
+        "detail": "腰围每周固定条件测 1 次"
+      }
+    ]
+  },
+  "days": [
+    {
+      "id": "upperA",
+      "dayNumber": 1,
+      "title": "上肢 A",
+      "focus": "推为主 · 拉为辅",
+      "estimatedMinutes": "55–70",
+      "isRest": false,
+      "exercises": [
+        {
+          "exerciseId": "barbell_bench_press",
+          "name": "杠铃卧推",
+          "unit": "kg",
+          "category": "胸",
+          "equipment": "杠铃",
+          "target": {
+            "weight": 37.5,
+            "sets": 3,
+            "reps": 8,
+            "rir": 2,
+            "restSeconds": 180
+          },
+          "weightStep": 2.5,
+          "progression": "目标 6–8 次；3组都做到8次且 RIR≥1 后，加2.5kg",
+          "note": "单人训练不要做到力竭。肩胛收紧、脚踩稳，控制下放。"
+        },
+        {
+          "exerciseId": "incline_db_press",
+          "name": "上斜哑铃卧推",
+          "unit": "kg/只",
+          "category": "胸",
+          "equipment": "哑铃",
+          "target": {
+            "weight": 10,
+            "sets": 3,
+            "reps": 10,
+            "rir": 2,
+            "restSeconds": 120
+          },
+          "weightStep": 2.5,
+          "progression": "目标 8–10 次；3组都10次后再加重量",
+          "note": "凳子约20–30°，避免前肩代偿。"
+        },
+        {
+          "exerciseId": "lat_pulldown",
+          "name": "高位下拉",
+          "unit": "kg",
+          "category": "背",
+          "equipment": "绳索",
+          "target": {
+            "weight": 20,
+            "sets": 3,
+            "reps": 10,
+            "rir": 2,
+            "restSeconds": 120
+          },
+          "weightStep": 2.5,
+          "progression": "目标 8–10 次；3组都10次后加重量",
+          "note": "拉到上胸附近，不要大幅后仰。"
+        },
+        {
+          "exerciseId": "standing_db_lateral_raise",
+          "name": "站姿哑铃侧平举",
+          "unit": "kg/只",
+          "category": "肩",
+          "equipment": "哑铃",
+          "target": {
+            "weight": 7.5,
+            "sets": 3,
+            "reps": 15,
+            "rir": 2,
+            "restSeconds": 75
+          },
+          "weightStep": 2.5,
+          "progression": "目标 12–15 次；先保证不借力，再考虑加重量",
+          "note": "手肘微屈，肩胛保持稳定，不耸肩、不借力摆动；优先控制动作幅度和中束张力。"
+        },
+        {
+          "exerciseId": "rope_triceps_pushdown",
+          "name": "绳索下压",
+          "unit": "kg",
+          "category": "三头",
+          "equipment": "绳索",
+          "target": {
+            "weight": 10,
+            "sets": 3,
+            "reps": 12,
+            "rir": 2,
+            "restSeconds": 75
+          },
+          "weightStep": 2.5,
+          "progression": "目标 10–12 次；3组都12次后加重量",
+          "note": "上臂固定，底部完全伸直。"
+        }
+      ]
+    },
+    {
+      "id": "lowerA",
+      "dayNumber": 2,
+      "title": "下肢 A",
+      "focus": "前侧为主",
+      "estimatedMinutes": "50–65",
+      "isRest": false,
+      "exercises": [
+        {
+          "exerciseId": "hack_squat",
+          "name": "哈克深蹲",
+          "unit": "kg",
+          "category": "腿",
+          "equipment": "哈克深蹲机",
+          "target": {
+            "weight": 65,
+            "sets": 3,
+            "reps": 8,
+            "rir": 2,
+            "restSeconds": 180
+          },
+          "weightStep": 5,
+          "progression": "目标 6–8 次；3组都8次且动作稳定后加重量",
+          "note": "长肢体优先使用哈克深蹲；背部贴稳，控制下放，膝盖轨迹稳定。"
+        },
+        {
+          "exerciseId": "leg_curl",
+          "name": "腿弯举",
+          "unit": "kg",
+          "category": "腿后侧",
+          "equipment": "器械",
+          "target": {
+            "weight": 20,
+            "sets": 3,
+            "reps": 12,
+            "rir": 2,
+            "restSeconds": 90
+          },
+          "weightStep": 2.5,
+          "progression": "目标 10–12 次；3组都12次后加重量",
+          "note": "动作完整，避免弹震。"
+        },
+        {
+          "exerciseId": "leg_extension",
+          "name": "腿屈伸",
+          "unit": "kg",
+          "category": "股四头",
+          "equipment": "器械",
+          "target": {
+            "weight": 20,
+            "sets": 3,
+            "reps": 15,
+            "rir": 2,
+            "restSeconds": 90
+          },
+          "weightStep": 2.5,
+          "progression": "目标 12–15 次；3组都15次后加重量",
+          "note": "顶部稍停，不要猛踢。"
+        },
+        {
+          "exerciseId": "calf_raise",
+          "name": "提踵",
+          "unit": "kg",
+          "category": "小腿",
+          "equipment": "器械/负重",
+          "target": {
+            "weight": 20,
+            "sets": 3,
+            "reps": 15,
+            "rir": 2,
+            "restSeconds": 75
+          },
+          "weightStep": 5,
+          "progression": "目标 12–15 次；底部充分拉伸、顶部停顿",
+          "note": "底部拉伸，顶部收缩，不弹。"
+        }
+      ]
+    },
+    {
+      "id": "rest3",
+      "dayNumber": 3,
+      "title": "休息 / 散步恢复",
+      "focus": "休息 / 散步恢复",
+      "estimatedMinutes": "—",
+      "isRest": true,
+      "exercises": []
+    },
+    {
+      "id": "upperB",
+      "dayNumber": 4,
+      "title": "上肢 B",
+      "focus": "拉为主 · 推为辅",
+      "estimatedMinutes": "55–70",
+      "isRest": false,
+      "exercises": [
+        {
+          "exerciseId": "barbell_row",
+          "name": "杠铃划船",
+          "unit": "kg",
+          "category": "背",
+          "equipment": "杠铃",
+          "target": {
+            "weight": 37.5,
+            "sets": 3,
+            "reps": 8,
+            "rir": 2,
+            "restSeconds": 150
+          },
+          "weightStep": 2.5,
+          "progression": "目标 6–8 次；3组都8次且躯干稳定后加2.5kg",
+          "note": "腰背稳定，拉向腹部，不要甩。"
+        },
+        {
+          "exerciseId": "one_arm_db_row",
+          "name": "单臂哑铃划船",
+          "unit": "kg",
+          "category": "背",
+          "equipment": "哑铃",
+          "target": {
+            "weight": 15,
+            "sets": 3,
+            "reps": 10,
+            "rir": 2,
+            "restSeconds": 120
+          },
+          "weightStep": 2.5,
+          "progression": "目标每侧 8–10 次；3组都10次后加重量",
+          "note": "手肘向后拉，躯干不要扭。"
+        },
+        {
+          "exerciseId": "machine_chest_press",
+          "name": "器械推胸",
+          "unit": "kg/侧",
+          "category": "胸",
+          "equipment": "器械",
+          "target": {
+            "weight": 12.5,
+            "sets": 3,
+            "reps": 12,
+            "rir": 2,
+            "restSeconds": 90
+          },
+          "weightStep": 2.5,
+          "progression": "目标 10–12 次；3组都12次后加重量",
+          "note": "胸部主动发力，不耸肩。"
+        },
+        {
+          "exerciseId": "reverse_pec_deck",
+          "name": "反向蝴蝶机",
+          "unit": "kg",
+          "category": "后束",
+          "equipment": "蝴蝶机",
+          "target": {
+            "weight": 14,
+            "sets": 3,
+            "reps": 15,
+            "rir": 2,
+            "restSeconds": 75
+          },
+          "weightStep": 2,
+          "progression": "目标 12–15 次；动作标准后再加重量",
+          "note": "不耸肩，手臂向后打开。"
+        },
+        {
+          "exerciseId": "hammer_curl",
+          "name": "锤式弯举",
+          "unit": "kg/只",
+          "category": "二头/肱肌",
+          "equipment": "哑铃",
+          "target": {
+            "weight": 7.5,
+            "sets": 3,
+            "reps": 12,
+            "rir": 2,
+            "restSeconds": 75
+          },
+          "weightStep": 2.5,
+          "progression": "目标 10–12 次；3组都12次后加重量",
+          "note": "掌心相对，上臂固定。"
+        }
+      ]
+    },
+    {
+      "id": "lowerB",
+      "dayNumber": 5,
+      "title": "下肢 B",
+      "focus": "后侧为主 + 核心",
+      "estimatedMinutes": "50–65",
+      "isRest": false,
+      "exercises": [
+        {
+          "exerciseId": "romanian_deadlift",
+          "name": "罗马尼亚硬拉",
+          "unit": "kg",
+          "category": "腿后侧/臀",
+          "equipment": "杠铃",
+          "target": {
+            "weight": 20,
+            "sets": 3,
+            "reps": 8,
+            "rir": 3,
+            "restSeconds": 180
+          },
+          "weightStep": 2.5,
+          "progression": "首轮学习动作：6–8 次，以髋铰链和腘绳肌拉伸感为准；动作稳定后再逐步加重",
+          "note": "第一次先用空杆学习。膝微屈、髋向后推、杠贴腿运行；脊柱保持中立，不追求下放到地面。"
+        },
+        {
+          "exerciseId": "leg_press",
+          "name": "腿举",
+          "unit": "kg",
+          "category": "腿",
+          "equipment": "腿举机",
+          "target": {
+            "weight": 80,
+            "sets": 3,
+            "reps": 10,
+            "rir": 2,
+            "restSeconds": 150
+          },
+          "weightStep": 10,
+          "progression": "目标 8–10 次；3组都10次后加重量",
+          "note": "腰背贴稳，不锁死膝盖。"
+        },
+        {
+          "exerciseId": "leg_curl",
+          "name": "腿弯举",
+          "unit": "kg",
+          "category": "腿后侧",
+          "equipment": "器械",
+          "target": {
+            "weight": 20,
+            "sets": 3,
+            "reps": 12,
+            "rir": 2,
+            "restSeconds": 90
+          },
+          "weightStep": 2.5,
+          "progression": "目标 10–12 次；3组都12次后加重量",
+          "note": "动作完整，避免弹震。"
+        },
+        {
+          "exerciseId": "cable_crunch",
+          "name": "绳索卷腹",
+          "unit": "kg",
+          "category": "核心",
+          "equipment": "绳索",
+          "target": {
+            "weight": 10,
+            "sets": 3,
+            "reps": 15,
+            "rir": 2,
+            "restSeconds": 75
+          },
+          "weightStep": 2.5,
+          "progression": "2–3组 × 12–15 次；动作质量优先，不追求堆组数",
+          "note": "胸口向骨盆方向收，不是只低头。"
+        }
+      ]
+    },
+    {
+      "id": "rest6",
+      "dayNumber": 6,
+      "title": "休息",
+      "focus": "休息 / 散步恢复",
+      "estimatedMinutes": "—",
+      "isRest": true,
+      "exercises": []
+    },
+    {
+      "id": "rest7",
+      "dayNumber": 7,
+      "title": "休息",
+      "focus": "休息 / 散步恢复",
+      "estimatedMinutes": "—",
+      "isRest": true,
+      "exercises": []
+    }
+  ]
+}

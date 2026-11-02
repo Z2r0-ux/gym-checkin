@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "name": "gym-checkin",
+  "description": "Read-only access to training plans, current progress and archived records.",
+  "documentation": "../../docs/agent-api.md",
+  "plan": { "url": "./plan.json", "method": "GET", "authentication": "none", "kind": "gym-checkin.plan" },
+  "records": {
+    "public": false,
+    "browser": "window.GymAgent.getSnapshot()",
+    "export": "更多 → 数据 → 导出给其他 agent",
+    "cli": "node --use-env-proxy scripts/agent-read.mjs cloud",
+    "authentication": "Supabase user access token via GYM_ACCESS_TOKEN; never a service-role key",
+    "kind": "gym-checkin.snapshot"
+  }
+}

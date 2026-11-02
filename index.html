@@ -166,6 +166,14 @@
         <button class="smallBtn" id="exportBtn">导出</button>
       </div>
       <div class="settingsRow">
+        <div class="left"><b>导出给其他 agent</b><span>包含训练计划、当前进度与历史记录</span></div>
+        <button class="smallBtn" id="agentExportBtn">导出</button>
+      </div>
+      <div class="settingsRow">
+        <div class="left"><b>数据接口文档</b><span>供其他工具和 agent 阅读调用</span></div>
+        <a class="smallBtn" href="./docs/agent-api.md" target="_blank" rel="noopener">文档</a>
+      </div>
+      <div class="settingsRow">
         <div class="left"><b>导入训练记录</b><span>兼容旧版本；登录时会同步到云端</span></div>
         <label class="smallBtn" for="importInput">导入</label>
         <input id="importInput" class="hidden" type="file" accept=".json">
@@ -215,5 +223,7 @@
 <script src="./app.js"></script>
 <script src="./exercise-library.js"></script>
 <script src="./cloud-sync.js"></script>
+<script src="./agent-data.js"></script>
+<script src="./agent.js"></script>
 </body>
 </html>

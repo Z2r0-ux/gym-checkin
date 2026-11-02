@@ -17,6 +17,16 @@
   let needsResync = false;
   let lastHandledUserId = null;
   let knownHistoryKeys = new Set();
+  let authChecked = false;
+
+  // Metadata only: never expose the auth client, session, user ID or token.
+  window.getGymDataSource = () => ({
+    kind: currentUser ? "browser-cloud" : "browser-local",
+    ready: authChecked && (!currentUser || cloudReady),
+    pendingWrites: Boolean(currentUser && (syncInFlight ||
+      localStorage.getItem(pendingKey(currentUser.id)) ||
+      localStorage.getItem(historyPendingKey(currentUser.id))))
+  });
 
   // app.js 原始 persist：仅用于“未登录模式”的本机保存。
   const persistLocal = persist;
@@ -466,6 +476,7 @@
   }
 
   async function handleSession(session) {
+    authChecked = true;
     const user = session?.user || null;
     if (!user) {
       const wasSignedIn = Boolean(currentUser);
