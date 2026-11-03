@@ -29,7 +29,7 @@ test("public plan matches source and committed JSON, including rest days and tar
   assert.equal(plan.days[0].exercises[0].target.weight,null);
   assert.equal(plan.days[0].exercises[0].target.restSeconds,120);
    assert.equal(plan.days[0].exercises[0].target.repsMin,8);
-   assert.equal(plan.days[0].requiresClearance,true);
+   assert.equal(plan.days[3].exercises[0].exerciseId,"incline_db_press");
    assert.equal(plan.days[1].id,"lowerA");
    assert.equal(plan.days[4].id,"rest5");
    assert.equal(plan.days[5].id,"lowerB");

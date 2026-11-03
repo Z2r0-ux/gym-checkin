@@ -55,10 +55,9 @@
       "id": "upperA",
       "dayNumber": 1,
       "title": "上肢 A",
-      "focus": "胸部优先 · 背宽与手臂｜肩部待评估，获准前不执行",
+      "focus": "胸部优先 · 背宽与手臂",
       "estimatedMinutes": "45–60",
       "isRest": false,
-      "requiresClearance": true,
       "exercises": [
         {
           "exerciseId": "machine_chest_press",
@@ -76,7 +75,7 @@
           },
           "weightStep": 2.5,
           "progression": "目标 8–12 次；全组达到 12 次、RIR≥2、动作稳定且没有关节痛后才小幅加重。首两周先做1–2组、RIR 3–4。",
-          "note": "未获肩部专业评估与恢复负重许可前不要执行本日上肢训练；如诱发锐痛立即停止。 胸部主动发力，不耸肩。"
+          "note": "胸部主动发力，不耸肩。"
         },
         {
           "exerciseId": "neutral_grip_lat_pulldown",
@@ -94,7 +93,7 @@
           },
           "weightStep": 2.5,
           "progression": "目标 8–12 次；全组达到 12 次、RIR≥2、动作稳定且没有关节痛后才小幅加重。首两周先做1–2组、RIR 3–4。",
-          "note": "未获肩部专业评估与恢复负重许可前不要执行本日上肢训练；如诱发锐痛立即停止。 使用掌心相对握把，拉至上胸，不要耸肩或明显后仰；肩部有痛立即停止。"
+          "note": "使用掌心相对握把，拉至上胸，不要耸肩或明显后仰。"
         },
         {
           "exerciseId": "chest_supported_row",
@@ -112,7 +111,7 @@
           },
           "weightStep": 2.5,
           "progression": "目标 10–12 次；全组达到 12 次、RIR≥2、动作稳定且没有关节痛后才小幅加重。首两周先做1–2组、RIR 3–4。",
-          "note": "未获肩部专业评估与恢复负重许可前不要执行本日上肢训练；如诱发锐痛立即停止。 胸口贴稳靠垫，手肘沿舒适轨迹向后，不耸肩。"
+          "note": "胸口贴稳靠垫，手肘沿舒适轨迹向后，不耸肩。"
         },
         {
           "exerciseId": "cable_lateral_raise",
@@ -130,7 +129,7 @@
           },
           "weightStep": 2.5,
           "progression": "目标 12–15 次；全组达到 15 次、RIR≥2、动作稳定且没有关节痛后才小幅加重。首两周先做1–2组、RIR 3–4。",
-          "note": "未获肩部专业评估与恢复负重许可前不要执行本日上肢训练；如诱发锐痛立即停止。 手肘微屈，不甩身体，保持中束持续张力。"
+          "note": "手肘微屈，不甩身体，保持中束持续张力。"
         },
         {
           "exerciseId": "rope_triceps_pushdown",
@@ -148,7 +147,7 @@
           },
           "weightStep": 2.5,
           "progression": "目标 10–15 次；全组达到 15 次、RIR≥2、动作稳定且没有关节痛后才小幅加重。首两周先做1–2组、RIR 3–4。",
-          "note": "未获肩部专业评估与恢复负重许可前不要执行本日上肢训练；如诱发锐痛立即停止。 上臂固定，底部完全伸直。"
+          "note": "上臂固定，底部完全伸直。"
         },
         {
           "exerciseId": "db_curl",
@@ -166,7 +165,7 @@
           },
           "weightStep": 2.5,
           "progression": "目标 10–15 次；全组达到 15 次、RIR≥2、动作稳定且没有关节痛后才小幅加重。首两周先做1–2组、RIR 3–4。",
-          "note": "未获肩部专业评估与恢复负重许可前不要执行本日上肢训练；如诱发锐痛立即停止。 上臂固定，不借力。"
+          "note": "上臂固定，不借力。"
         }
       ]
     },
@@ -177,7 +176,6 @@
       "focus": "股四头肌 · 腘绳肌 · 核心",
       "estimatedMinutes": "45–55",
       "isRest": false,
-      "requiresClearance": false,
       "exercises": [
         {
           "exerciseId": "leg_press",
@@ -278,24 +276,22 @@
       "focus": "主动恢复 · 可选步行或单车 20–30 分钟",
       "estimatedMinutes": "—",
       "isRest": true,
-      "requiresClearance": false,
       "exercises": []
     },
     {
       "id": "upperB",
       "dayNumber": 4,
       "title": "上肢 B",
-      "focus": "背厚 · 上胸 · 后束与手臂｜肩部待评估，获准前不执行",
+      "focus": "背厚 · 上胸 · 后束与手臂",
       "estimatedMinutes": "45–60",
       "isRest": false,
-      "requiresClearance": true,
       "exercises": [
         {
-          "exerciseId": "incline_machine_chest_press",
-          "name": "上斜器械推胸",
-          "unit": "kg",
+          "exerciseId": "incline_db_press",
+          "name": "上斜哑铃卧推",
+          "unit": "kg/只",
           "category": "胸",
-          "equipment": "上斜推胸器械",
+          "equipment": "哑铃",
           "target": {
             "weight": null,
             "sets": 3,
@@ -306,7 +302,7 @@
           },
           "weightStep": 2.5,
           "progression": "目标 8–12 次；全组达到 12 次、RIR≥2、动作稳定且没有关节痛后才小幅加重。首两周先做1–2组、RIR 3–4。",
-          "note": "未获肩部专业评估与恢复负重许可前不要执行本日上肢训练；如诱发锐痛立即停止。 选择舒适握距，控制下放；出现前肩或肩顶部疼痛就停止。"
+          "note": "凳子调整至约20–30°，使用可控重量，避免过度耸肩。"
         },
         {
           "exerciseId": "chest_supported_row",
@@ -324,7 +320,7 @@
           },
           "weightStep": 2.5,
           "progression": "目标 8–12 次；全组达到 12 次、RIR≥2、动作稳定且没有关节痛后才小幅加重。首两周先做1–2组、RIR 3–4。",
-          "note": "未获肩部专业评估与恢复负重许可前不要执行本日上肢训练；如诱发锐痛立即停止。 胸口贴稳靠垫，手肘沿舒适轨迹向后，不耸肩。"
+          "note": "胸口贴稳靠垫，手肘沿舒适轨迹向后，不耸肩。"
         },
         {
           "exerciseId": "neutral_grip_lat_pulldown",
@@ -342,7 +338,7 @@
           },
           "weightStep": 2.5,
           "progression": "目标 8–12 次；全组达到 12 次、RIR≥2、动作稳定且没有关节痛后才小幅加重。首两周先做1–2组、RIR 3–4。",
-          "note": "未获肩部专业评估与恢复负重许可前不要执行本日上肢训练；如诱发锐痛立即停止。 使用掌心相对握把，拉至上胸，不要耸肩或明显后仰；肩部有痛立即停止。"
+          "note": "使用掌心相对握把，拉至上胸，不要耸肩或明显后仰。"
         },
         {
           "exerciseId": "reverse_pec_deck",
@@ -360,7 +356,7 @@
           },
           "weightStep": 2,
           "progression": "目标 12–15 次；全组达到 15 次、RIR≥2、动作稳定且没有关节痛后才小幅加重。首两周先做1–2组、RIR 3–4。",
-          "note": "未获肩部专业评估与恢复负重许可前不要执行本日上肢训练；如诱发锐痛立即停止。 不耸肩，手臂向后打开。"
+          "note": "不耸肩，手臂向后打开。"
         },
         {
           "exerciseId": "hammer_curl",
@@ -378,7 +374,7 @@
           },
           "weightStep": 2.5,
           "progression": "目标 10–15 次；全组达到 15 次、RIR≥2、动作稳定且没有关节痛后才小幅加重。首两周先做1–2组、RIR 3–4。",
-          "note": "未获肩部专业评估与恢复负重许可前不要执行本日上肢训练；如诱发锐痛立即停止。 掌心相对，上臂固定。"
+          "note": "掌心相对，上臂固定。"
         },
         {
           "exerciseId": "rope_triceps_pushdown",
@@ -396,7 +392,7 @@
           },
           "weightStep": 2.5,
           "progression": "目标 10–15 次；全组达到 15 次、RIR≥2、动作稳定且没有关节痛后才小幅加重。首两周先做1–2组、RIR 3–4。",
-          "note": "未获肩部专业评估与恢复负重许可前不要执行本日上肢训练；如诱发锐痛立即停止。 上臂固定，底部完全伸直。"
+          "note": "上臂固定，底部完全伸直。"
         }
       ]
     },
@@ -407,7 +403,6 @@
       "focus": "主动恢复 · 可选步行或单车 20–30 分钟",
       "estimatedMinutes": "—",
       "isRest": true,
-      "requiresClearance": false,
       "exercises": []
     },
     {
@@ -417,7 +412,6 @@
       "focus": "腿部 · 臀部 · 核心",
       "estimatedMinutes": "45–55",
       "isRest": false,
-      "requiresClearance": false,
       "exercises": [
         {
           "exerciseId": "hack_squat",
@@ -453,7 +447,7 @@
           },
           "weightStep": 5,
           "progression": "目标 10–12 次；全组达到 12 次、RIR≥2、动作稳定且没有关节痛后才小幅加重。首两周先做1–2组、RIR 3–4。",
-          "note": "顶端伸髋收紧臀部，不用腰椎过伸代偿；握持不要牵扯疼痛肩部。"
+          "note": "顶端伸髋收紧臀部，不用腰椎过伸代偿。"
         },
         {
           "exerciseId": "leg_curl",
@@ -518,7 +512,6 @@
       "focus": "固定休息 · 周日",
       "estimatedMinutes": "—",
       "isRest": true,
-      "requiresClearance": false,
       "exercises": []
     }
   ]

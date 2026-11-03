@@ -15,7 +15,7 @@
   function buildPlan(profile,program,library){
     return {schemaVersion:1,kind:"gym-checkin.plan",profile:profileData(profile),
       days:program.map((day,index)=>({id:day.id,dayNumber:index+1,title:day.title,focus:day.focus,
-        estimatedMinutes:day.time,isRest:day.isRest===true||day.ex.length===0,requiresClearance:day.requiresClearance===true,
+        estimatedMinutes:day.time,isRest:day.isRest===true||day.ex.length===0,
         exercises:day.ex.map(ex=>({exerciseId:ex.exerciseId,name:ex.n,unit:ex.u,
           category:library[ex.exerciseId]?.category||null,equipment:library[ex.exerciseId]?.equipment||null,
           target:{weight:ex.w,sets:ex.s,reps:ex.r,repsMin:ex.minR??null,rir:ex.rir,restSeconds:ex.rest||0},
