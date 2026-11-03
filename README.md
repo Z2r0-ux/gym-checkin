@@ -66,3 +66,11 @@ gym_mobile_v3
 - 「更多 → 数据 → 导出给其他 agent」导出计划、当前进度、历史和同步状态，不暴露登录凭据。记录不发布到公共网址。
 - 页面内可用 `window.GymAgent.getPlan()`、`window.GymAgent.getSnapshot()`；其他机器可用 `node --use-env-proxy scripts/agent-read.mjs cloud`，由用户安全注入 `GYM_ACCESS_TOKEN` 后只读访问其云端记录。
 - 修改训练源数据后运行 `node scripts/generate-agent-plan.cjs`，一并提交生成的计划 JSON。
+
+## 2026-11-03 阶段 B · 新手四练 V1.1
+
+- **Day1 上肢A → Day2 下肢A → Day3 恢复 → Day4 上肢B → Day5 恢复 → Day6 下肢B → Day7 周日休息**；每次正式力量训练约 45–60 分钟。
+- 两个上肢日为**肩部评估获准后才能执行**的目标计划：此前有训练后肩部锐痛，并非已获得医疗许可。未获许可时暂以不牵扯肩部的下肢与轻有氧为主。
+- 起始重量在新计划中设为 `null`（待测），界面初次显示 0 仅为可编辑的未设置占位值，绝非建议从 0 kg 训练。第一二周从1–2组、RIR 3–4开始；达到动作上限、RIR≥2且无关节痛后再逐步加重。
+- 保留旧训练归档（特别是 2026-11-02 已完成的旧上肢A）；兼容旧的 `gym_mobile_v3` 存储键和 Supabase 归档，不改写历史。计划切换时保留对应的当前训练日ID；如已在 Day2 下肢A，继续 Day2。
+- 新版公开计划位于 `api/v1/plan.json`，包含 `requiresClearance` 和 `target.repsMin`。个人训练历史须通过已授权浏览器或用户自行导出的只读 agent 快照获取。

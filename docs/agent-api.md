@@ -48,11 +48,12 @@ for day in plan["days"]:
 | `days[].id` | 稳定训练日 ID，关联快照的 `current.dayId`、历史的 `dayId` |
 | `days[].estimatedMinutes` | 展示用区间字符串，例如 `55–70`；休息日为 `—` |
 | `days[].isRest` | 是否为计划内的固定休息日 |
+| `days[].requiresClearance` | 肩部评估前不得执行的上肢日；true 不代表已获得训练许可 |
 | `days[].exercises[]` | 动作 ID、名称、器械、部位、单位、目标、加重规则、动作提示 |
-| `exercises[].target` | 计划目标：`weight`、`sets`、`reps`、`rir`、`restSeconds` |
+| `exercises[].target` | 计划目标：`weight`、`sets`、`reps`、`repsMin`、`rir`、`restSeconds` |
 | `exercises[].weightStep` | 重量按钮每次调整的步长 |
 
-`profile.id` 是静态应用配置 ID，**不是 Supabase user ID**。`target` 是计划值，不能当作已完成记录。`unit` 保留应用原始单位（例如 `kg`、`kg/只`）；不要擅自把双侧重量翻倍。RIR 表示预估还能完成的次数，`restSeconds` 单位为秒。
+`profile.id` 是静态应用配置 ID，**不是 Supabase user ID**。`target` 是计划值，不能当作已完成记录。新计划的 `target.weight` 可能为 `null`，表示尚未测定起始训练重量，不能当作 0 kg 的处方。肩部负重训练须等待专业评估许可。`unit` 保留应用原始单位（例如 `kg`、`kg/只`）；不要擅自把双侧重量翻倍。RIR 表示预估还能完成的次数，`restSeconds` 单位为秒。
 
 ## 2. 用户导出给其他 agent
 

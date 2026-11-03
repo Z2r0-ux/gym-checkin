@@ -52,6 +52,17 @@ Object.assign(window.EXERCISE_LIBRARY, {
   full_body_stretch:{id:"full_body_stretch",name:"全身拉伸",category:"恢复",equipment:"瑜伽垫/自重",unit:"分钟",step:5,defaultRest:0,note:"温和拉伸主要紧张部位，避免疼痛范围内强行加大幅度。"}
 });
 
+
+// 阶段B增肌新动作：旧动作ID保持不变，以兼容历史归档。
+Object.assign(window.EXERCISE_LIBRARY, {
+  neutral_grip_lat_pulldown:{id:"neutral_grip_lat_pulldown",name:"中立握高位下拉",category:"背",equipment:"高位下拉器械",unit:"kg",step:2.5,defaultRest:90,note:"使用掌心相对握把，拉至上胸，不要耸肩或明显后仰；肩部有痛立即停止。"},
+  chest_supported_row:{id:"chest_supported_row",name:"胸托划船",category:"背",equipment:"胸托划船器械",unit:"kg",step:2.5,defaultRest:90,note:"胸口贴稳靠垫，手肘沿舒适轨迹向后，不耸肩。"},
+  incline_machine_chest_press:{id:"incline_machine_chest_press",name:"上斜器械推胸",category:"胸",equipment:"上斜推胸器械",unit:"kg",step:2.5,defaultRest:120,note:"选择舒适握距，控制下放；出现前肩或肩顶部疼痛就停止。"},
+  seated_leg_curl:{id:"seated_leg_curl",name:"坐姿腿弯举",category:"腿后侧",equipment:"坐姿腿弯举机",unit:"kg",step:2.5,defaultRest:75,note:"调整膝盖与器械转轴位置，缓慢还原，不借惯性。"},
+  machine_hip_thrust:{id:"machine_hip_thrust",name:"器械臀推",category:"臀",equipment:"臀推器械",unit:"kg",step:5,defaultRest:90,note:"顶端伸髋收紧臀部，不用腰椎过伸代偿；握持不要牵扯疼痛肩部。"},
+  reverse_crunch:{id:"reverse_crunch",name:"反向卷腹",category:"核心",equipment:"自重/垫子",unit:"自重",step:0,defaultRest:60,note:"将骨盆缓慢卷离垫子，不要靠甩腿和惯性。"}
+});
+
 // 常见名称作为检索别名，不重复创建动作 ID。
 const EXERCISE_ALIASES={
   barbell_bench_press:["卧推","平板杠铃卧推"],

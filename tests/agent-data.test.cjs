@@ -25,10 +25,15 @@ test("public plan matches source and committed JSON, including rest days and tar
   assert.equal(JSON.stringify(plan,null,2)+"\n",fs.readFileSync(path.join(root,"api/v1/plan.json"),"utf8"));
   assert.equal(plan.days.length,7);
   assert.equal(plan.days.filter(day=>day.isRest).length,3);
-  assert.equal(plan.days[0].exercises[0].exerciseId,"barbell_bench_press");
-  assert.equal(plan.days[0].exercises[0].target.weight,37.5);
-  assert.equal(plan.days[0].exercises[0].target.restSeconds,180);
-  assert.equal(plan.days[0].exercises[1].unit,library.incline_db_press.unit);
+  assert.equal(plan.days[0].exercises[0].exerciseId,"machine_chest_press");
+  assert.equal(plan.days[0].exercises[0].target.weight,null);
+  assert.equal(plan.days[0].exercises[0].target.restSeconds,120);
+   assert.equal(plan.days[0].exercises[0].target.repsMin,8);
+   assert.equal(plan.days[0].requiresClearance,true);
+   assert.equal(plan.days[1].id,"lowerA");
+   assert.equal(plan.days[4].id,"rest5");
+   assert.equal(plan.days[5].id,"lowerB");
+  assert.equal(plan.days[0].exercises[1].unit,library.neutral_grip_lat_pulldown.unit);
   assert.ok(!JSON.stringify(plan).includes("publishableKey"));
   assert.ok(!JSON.stringify(plan).includes("storageKey"));
 });
@@ -36,7 +41,7 @@ test("snapshot separates plan targets, actual draft and archives without mutatio
   const input=fixture(),before=JSON.stringify(input.state);
   const result=buildSnapshot(input);
   assert.equal(JSON.stringify(input.state),before);
-  assert.equal(result.plan.days[0].exercises[0].target.weight,37.5);
+  assert.equal(result.plan.days[0].exercises[0].target.weight,null);
   assert.equal(result.current.exercises[0].weight,40);
   assert.equal(result.current.exercises[0].sets[0].setNumber,1);
   assert.equal(result.current.exercises[0].sets[0].done,true);
@@ -49,7 +54,7 @@ test("snapshot separates plan targets, actual draft and archives without mutatio
   result.current.exercises[0].sets[0].weight=999;
   result.plan.days[0].exercises[0].target.weight=999;
   assert.equal(JSON.stringify(input.state),before);
-  assert.equal(input.program[0].ex[0].w,37.5);
+  assert.equal(input.program[0].ex[0].w,null);
 });
 test("unknown legacy numeric values remain null and missing draft sets are not manufactured",()=>{
   const input=fixture();
@@ -106,4 +111,14 @@ test("CLI converts an existing backup and preserves an existing snapshot's captu
     fs.writeFileSync(file,JSON.stringify({history:[]}));
     result=run();assert.notEqual(result.status,0);assert.equal(result.stdout,"");
   }finally{fs.rmSync(dir,{recursive:true,force:true});}
+});
+
+// 计划升级不能改变已经归档的旧训练动作和重量。
+test("legacy upper A archive retains old exercises after plan upgrade",()=>{
+ const input=fixture();
+ input.state.history=[{type:"workout",cycleNumber:1,cycleDay:1,dayId:"upperA",title:"上肢 A",localDate:"2026-11-02",exercises:[{exerciseId:"barbell_bench_press",name:"杠铃卧推",unit:"kg",weight:37.5,sets:[{weight:37.5,reps:8,rir:2,done:true}]}]}];
+ const result=buildSnapshot(input);
+ assert.equal(result.history[0].exercises[0].exerciseId,"barbell_bench_press");
+ assert.equal(result.history[0].exercises[0].weight,37.5);
+ assert.equal(result.plan.days[0].exercises[0].exerciseId,"machine_chest_press");
 });
